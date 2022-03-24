@@ -1,0 +1,120 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Relaxeo - Graphiques{% endblock %}
+
+{% block body %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Graphiques</h1>
+    </div>
+
+
+<div class="card shadow mb-4">
+<div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary" id="graphTitle">Nombre d'inscriptions aux séances par mois</h6>
+</div>
+<div class="card-body">
+    <div class="chart-area">
+    <canvas id="participationChart"></canvas>
+    </div>
+    <hr>
+    
+</div>
+</div>
+
+<div class="card shadow mb-4">
+<div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-danger" id="graphTitle">Nombre de créations de compte par mois</h6>
+</div>
+<div class="card-body">
+    <div class="chart-area">
+    <canvas id="userChart"></canvas>
+    </div>
+    <hr>
+    
+</div>
+</div>
+
+<div class="card shadow mb-4">
+<div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-success" id="graphTitle">Chiffre d'affaires TTC par mois *</h6>
+</div>
+<div class="card-body">
+    <div class="chart-area">
+    <canvas id="caChart"></canvas>
+    </div>
+    <hr>
+    *Paiements des participants + "clients entreprises" (RIVP, CSE RIVP + UDAF)
+</div>
+</div>
+
+<div class="card shadow mb-4">
+<div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold" id="graphTitle">Visiteurs sur 
+    <span style="color:rgb(240,173,78)">relaxeo.net</span> et sur 
+    <span style="color:rgb(173,240,78)">fitandrelax.fr</span> par semaine*</h6>
+</div>
+<div class="card-body">
+    <div class="chart-area">
+    <canvas id="analyticsChart"></canvas>
+    </div>
+    <hr>
+    *Données Google Analytics
+</div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %} 
+  <!-- Page level plugins -->
+  <script src="{{ asset('bootstrap/vendor/chart.js/Chart.min.js')}}"></script>
+   <!-- Page level custom scripts -->
+  <script src="{{ asset('chart/chart.js')}}"></script>
+
+ <script>
+     var data = [];
+     var data_p = [];
+     var data_u = [];
+     var data_o = [];
+     var data_a = [];
+     var data_a2 = [];
+     var labels = [];
+     var labels_a = [];
+     var labelP = 'Participations';
+     var labelU = 'Créations';
+     var labelO = '€';
+     var labelA = 'visiteurs Relaxeo';
+     var labelA2 = 'visiteurs Fit & Relax';
+
+    {% for element in data_p %}
+        data_p.push({{element}});
+    {% endfor %}
+    {% for element in data_u %}
+        data_u.push({{element}});
+    {% endfor %}  
+    {% for element in data_o %}
+        data_o.push({{element}});
+    {% endfor %}  
+    {% for element in data_a %}
+        data_a.push({{element}});
+    {% endfor %} 
+    {% for element in data_a2 %}
+        data_a2.push({{element}});
+    {% endfor %}
+    {% for element in labels %}
+        labels.push('{{element}}');
+    {% endfor %}
+    {% for element in labels_a %}
+        labels_a.push('{{element}}');
+    {% endfor %}
+ 
+    createChart('participationChart',data_p,labels,labelP,78,115,223);
+    createChart('userChart',data_u,labels,labelU,223,115,78);
+    createChart('caChart',data_o,labels,labelO,115,223,78);
+    createDoubleChart('analyticsChart',data_a,labels_a,labelA,240,173,78,data_a2,labelA2,173,240,78);
+ </script>
+
+
+
+ 
+       
+{% endblock %}

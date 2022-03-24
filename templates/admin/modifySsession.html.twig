@@ -1,0 +1,363 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Relaxeo - Fiche{% endblock %}
+{% block stylesheets %}
+     <link href="{{asset('bootstrap/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Fiche séance</h1>        
+    </div>    
+
+    <form method="post" action="{{path('modifySsession',{'id':ssession.id})}}">
+        <div class="form-group row">
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <select name="addParticipation">
+                    {% for user in users %}
+                        <option class="form-control form-control-user" 
+                        value="{{user.id}}">{{user.lastname}} {{user.firstname}} ({{user.email}})</option>
+                    {% endfor %}
+                </select>                
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Ajouter un participant" />
+    </form>
+    <br />
+    <form method="post" action="{{path('modifySsession',{'id':ssession.id})}}">
+        <input type="hidden" name="presents" />
+        <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-success">
+                <h6 class="m-0 font-weight-bold text-gray-100">Liste des inscrits</h6>
+                </div>
+                <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                        <th>Date d'inscription</th>
+                        <th>Invité par</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Présent</th>
+                        <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                        <th>Date d'inscription</th>
+                        <th>Invité par</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Présent</th>
+                        <th></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                    {% if participations is defined %}
+                        {% for participation in participations %}
+                            {% if listParticipants[participation.id] is not null %}
+                            <tr>
+                            <td>{{participation.createdAt|date('d/m/Y H:i')}}</td>
+                            <td>
+                                {% if listInvitedBy[participation.id] is not null %}
+                                {{listInvitedBy[participation.id].firstName}}<br />
+                                {{listInvitedBy[participation.id].LastName}}
+                                {% endif %}
+                            </td>
+                            <td>                      
+                                {{listParticipants[participation.id].firstName}}                       
+                            </td>
+                            <td>                       
+                                {{listParticipants[participation.id].LastName}}                      
+                            </td>
+                            <td>{% if redlist[participation.id] is not null %}<strike>{% endif %}
+                                {{listParticipants[participation.id].Email}}
+                                {% if redlist[participation.id] is not null %}</strike>{% endif %}
+                            </td>
+                            <td>
+                                {{listParticipants[participation.id].Mobile}}
+                            </td>
+                            <td><input type="checkbox" name="{{participation.userId}}" 
+                            {% if participation.present==1 %} checked="checked" {% endif %} />
+                            </td>
+                            <td><a class="dropdown-item" href="#" data-toggle="modal" 
+                            data-target="#ParticipationDeleteModal" 
+                            onclick="participationDeleteLink({{participation.id}})">Supprimer</a></td>
+                            </tr>                           
+                            
+                            {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </tbody>
+                    </table>
+                </div>
+                    <br />
+                    <input type="submit" class="btn btn-primary" value="Enregistrer les présents" />
+                    <br /><br />
+                      <textarea id="to-copy" class="form-control">{% if participations is defined %}{% for participation in participations %}{% if listParticipants[participation.id] is not null and redlist[participation.id] is null %}{{listParticipants[participation.id].Email}}, {% endif %}{% endfor %}{% endif %}</textarea>
+                    <br />
+                    <button id="copy" class="btn btn-primary" type="button">Copier les emails</button>                 
+                </div>
+               
+            </div>
+         
+        </form>
+
+
+        <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-success">
+                    <h6 class="m-0 font-weight-bold text-gray-100">Liste d'attente</h6>
+                </div>
+                <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center" id="dataTable2" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>                      
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Mobile</th>                     
+                        <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>                   
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Mobile</th>                
+                        <th></th>
+                        </tr>
+                    </tfoot>
+                    <tbody>           
+                    {% if waitingLists is defined %}                     
+                        {% for waitingList in waitingLists %}
+                            {% if listWaitings[waitingList.id] is not null %}
+                          
+                            <tr>                          
+                            <td>                      
+                                {{listWaitings[waitingList.id].firstName}}                       
+                            </td>
+                            <td>                       
+                                {{listWaitings[waitingList.id].LastName}}                      
+                            </td>
+                            <td> 
+                                {{listWaitings[waitingList.id].Email}}
+                            </td>
+                            <td>
+                                {{listWaitings[waitingList.id].Mobile}}
+                            </td>                           
+                            <td></td>
+                            </tr>                           
+                            
+                            {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </tbody>
+                    </table>
+                </div>                                   
+                </div>
+               
+            </div>
+        
+      
+
+      <!-- Participation Delete Modal-->
+        <div class="modal fade" id="ParticipationDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Vous souhaitez supprimer ce participant ?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                </div>
+                <div class="modal-body">Cliquez sur "Supprimer" pour confirmer.</div>
+                <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+                <a class="btn btn-primary" id="ParticipationDeleteLink" 
+                href="">Supprimer</a>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+
+    {% for participant in listParticipants %}
+        
+    {% endfor %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h2 class="h4 mb-0 text-gray-800">Modifier une séance</h2>        
+    </div> 
+   {% if form is defined %}
+    {{ form_start(form) }}
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            {{form_row(form.structure,{'label':'Structure','attr':{'class':'form-control form-control-user','onchange':'printproducts();'}})}}
+        </div>
+        <div class="col-sm-6">
+            {{form_row(form.activity,{'label':'Activité ','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+     </div>
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            {{form_row(form.subtitle,{'label':'Sous-titre','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+        <div class="col-sm-6">
+            {{form_row(form.description,{'label':'Description','attr':{'class':'form-control form-control-user'}})}}
+         </div>
+    </div>
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            {{form_row(form.scheduledAt,{'label':'Début','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+        <div class="col-sm-6">
+           {{form_row(form.finishedAt,{'label':'Fin','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+     </div>
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            {{form_row(form.participationMax,{'label':'Nombre de places','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+        <div class="col-sm-6">
+            {{form_row(form.timeLimit,{'label':'Heure limite pour s\'inscrire','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+     </div>
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+               {{form_row(form.coach,{'label':'Coach ','attr':{'class':'form-control form-control-user'}})}}    
+        </div>
+        <div class="col-sm-6">
+                 {{form_row(form.location,{'label':'Lieu ','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+               {{form_row(form.idZoom,{'label':'ID Zoom ','attr':{'class':'form-control form-control-user'}})}}    
+        </div>
+        <div class="col-sm-6">
+               {{form_row(form.passZoom,{'label':'Pass Zoom ','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">              
+              <input type="checkbox" name="off" id="off"  {% if ssession.off == 1 %} checked="checked" {% endif %} />
+              <label for="off">Autoriser les inscriptions hors connexion relaxeo.net/inscription/{{ssession.id}}</label>
+        </div>
+     </div>
+    <div class="form-group row">
+       <div class="col-sm-6 mb-3 mb-sm-0" id="div_products">
+
+       </div>
+    </div>
+     <div class="form-group row">               
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            {{form_row(form.submit_post,{'label':'Modifier','attr':{'class':'btn btn-success'}})}}
+        </div>       
+    </div>
+    <div class="form-group row mt-5">               
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            {{form_row(form.delete_post,{'label':'Supprimer la séance',
+            'attr':{'class':'btn btn-danger','onclick':'return window.confirm("Êtes vous sur de vouloir supprimer la séance ?");'}})}}
+        </div>
+    </div>
+    {{ form_end(form) }}
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+          <!-- Page level plugins -->
+        <script src="{{ asset('bootstrap/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+        <script src="{{ asset('bootstrap/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+        <!-- Page level custom scripts -->
+        <script src="{{ asset('bootstrap/js/demo/datatables-demo.js')}}"></script>
+        
+    <script>
+    var toCopy  = document.getElementById( 'to-copy' ),
+    btnCopy = document.getElementById( 'copy' );
+
+    btnCopy.addEventListener( 'click', function(){
+	toCopy.select();
+	document.execCommand( 'copy' );
+	return false;
+    } );
+
+    {% if products is defined %}
+        
+        var productsList = [];
+        {% for product in products %}
+            var oneProduct = {};
+            oneProduct["id"] = "{{product.id}}";
+            oneProduct["name"] = "{{product.name}}";
+            oneProduct["price"] = "{{product.price}}";
+            productsList.push(oneProduct);
+        {% endfor %}
+
+        var catalogsList = [];
+        {% for catalog in catalogs %}
+            var oneCatalog = {};
+            oneCatalog["id"] = "{{catalog.id}}";
+            oneCatalog["productId"] = "{{catalog.product.id}}";
+            oneCatalog["structureId"] = "{{catalog.structureId}}";
+            catalogsList.push(oneCatalog);
+        {% endfor %}
+
+        var ticketsList = [];
+        {% for ticket in tickets %}
+            var oneTicket = {};
+            oneTicket["id"] = "{{ticket.id}}";
+            oneTicket["productId"] = "{{ticket.productId}}";
+            oneTicket["ssessionId"] = "{{ticket.ssessionId}}";
+            ticketsList.push(oneTicket);
+        {% endfor %}
+
+    
+        printproducts();
+
+        function printproducts(){
+            var id = document.getElementById('ssession_structure').value;
+            var div_products = document.getElementById('div_products')
+           while (div_products.firstChild){
+                    div_products.removeChild(div_products.firstChild);
+            }
+           
+            for (var catalog in catalogsList){            
+                if (catalogsList[catalog].structureId==id){                                       
+                    for (var product in productsList){                    
+                        if (catalogsList[catalog].productId==productsList[product].id){
+                            var p = document.createElement('p');
+                            div_products.appendChild(p);
+                            var checkbox = document.createElement('input');
+                            checkbox.setAttribute('type','checkbox');
+                            checkbox.setAttribute('id',productsList[product].name);
+                            checkbox.setAttribute('name',productsList[product].id);
+                            for (var ticket in ticketsList) {
+                                if (ticketsList[ticket].productId==productsList[product].id){
+                                     checkbox.setAttribute('checked','checked');
+                                }
+                            } 
+                                                      
+                            p.appendChild(checkbox);
+                            var label = document.createElement('label');
+                            label.setAttribute('for',productsList[product].id);
+                            var text = document.createTextNode(' '+productsList[product].name+' '+productsList[product].price);
+                            p.appendChild(label);
+                            label.appendChild(text);                            
+                            
+                        }
+                    }
+                }
+            }
+        }
+        {% endif %}
+
+        function participationDeleteLink(participationId){
+            document.getElementById('ParticipationDeleteLink').href = "../deleteParticipation/"+participationId;
+        }
+         </script>
+{% endblock %}

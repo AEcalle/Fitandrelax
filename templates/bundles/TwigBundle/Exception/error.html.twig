@@ -1,0 +1,23 @@
+{# templates/bundles/TwigBundle/Exception/error.html.twig #}
+{% extends 'baseSecurity.html.twig' %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-xl-10 col-lg-12 col-md-9">
+        <div class="card o-hidden border-0 shadow-lg my-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                    <h1>Une erreur est survenue</h1>
+
+                    <p>
+                        Une erreur est survenue. Cliquez sur le lien suivant pour <a href="{{ path('home') }}">retourner à l'accueil</a>.
+                        
+                    </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

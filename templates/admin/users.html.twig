@@ -1,0 +1,104 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Relaxeo - Utilisateurs{% endblock %}
+{% block stylesheets %}
+     <link href="{{asset('bootstrap/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Utilisateurs</h1>
+    </div>
+    
+    <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-success">
+                <h6 class="m-0 font-weight-bold text-gray-100">Liste des utilisateurs</h6>
+                </div>
+                <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                        <th>Date création</th>
+                        <th>Structure</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Mobile</th>                   
+                        <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                        <th>Date création</th>
+                        <th>Structure</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th></th>      
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% for user in users %}                  
+                            <tr>
+                            <td data-sort="{{user.createdAt|date("Y/m/d H:i:s")}}">
+                                {{ user.createdAt|date("d/m/Y")}}
+                            </td>
+                            <td>
+                                {% if structures[user.id] is not null %}
+                               {{ structures[user.id].name }}
+                               {% endif %}
+                            </td>
+                            <td>                      
+                                {{ user.firstname }}               
+                            </td>
+                            <td>                       
+                                {{ user.lastname }}         
+                            </td>
+                            <td class="tdEmail"> 
+                                {{ user.email }} 
+                            </td>
+                            <td>
+                                {{ user.mobile }}
+                            </td>
+                            <td><a href="{{path('user',{'id':user.id})}}">Gérer</a></td>                           
+                            </tr>                          
+                        {% endfor %}
+                    </tbody>
+                    </table>
+                </div>                                 
+                </div>               
+            </div> 
+            <button type="button" class="btn btn-primary" onclick="printEmails();">Actualiser</button>
+            <button id="copy" class="btn btn-primary" type="button">Copier les emails</button>
+            <div id="to-copy" class="bg-white p-2"></div>
+{% endblock %}
+{% block javascripts %}
+          <!-- Page level plugins -->
+        <script src="{{ asset('bootstrap/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+        <script src="{{ asset('bootstrap/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+        <!-- Page level custom scripts -->
+        <script src="{{ asset('bootstrap/js/demo/datatables-demo.js')}}"></script>
+
+        <script>
+            var toCopy  = document.getElementById( 'to-copy' ),
+            btnCopy = document.getElementById( 'copy' );
+
+            btnCopy.addEventListener( 'click', function(){
+	        toCopy.select();
+	        document.execCommand( 'copy' );
+	        return false;
+            } );  
+            printEmails();
+           
+            function printEmails(){
+                document.getElementById('to-copy').innerHTML = "";
+                var tdEmails = document.getElementsByClassName('tdEmail');
+                
+                var length = tdEmails.length;
+                for (var i = 0;i<length;i++){                      
+                    document.getElementById('to-copy').innerHTML = document.getElementById('to-copy').innerHTML + tdEmails[i].innerHTML + ',';
+                }
+            }
+        </script>
+{% endblock %}

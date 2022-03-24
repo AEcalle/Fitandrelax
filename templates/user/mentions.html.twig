@@ -1,0 +1,41 @@
+{% extends 'baseUser.html.twig' %}
+
+{% block title %}Relaxeo - Mentions légales{% endblock %}
+  
+{% block body %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Mentions légales</h1>
+    </div>
+
+    <div class="row">
+	<div class="col-3">
+	</div>
+	<div class="col-3 text-center font-weight-bold">
+		<p>Raison sociale</p>
+		<p>Forme juridique</p>
+		<p>Siège social</p>
+		<p>Capital social</p>
+		<p>RCS </p>
+		<p>Numéro de TVA intracommunautaire</p>
+		<p>Responsable de la publication </p>
+		<p>Hébergeur</p>
+		<p>Contact</p>
+	</div>
+	<div class="col-3 center">
+		<p>Fit & Relax</p>
+		<p>Société par actions simplifiée</p>
+		<p>58 quai de Dion Bouton 92800 Puteaux</p>
+		<p>9000 euros</p>
+		<p>818 505 539 Nanterre</p>
+		<p>FR 41 818 505 539</p>
+		<p>Fit & Relax</p>
+		<p><a href="https://www.ionos.fr" target="_blank">1&1 IONOS SARL</a></p>
+		<p><a href="{{path('contact')}}">Nous contacter</a></p>
+	</div>
+	<div class="col-3">
+	</div>
+</div>
+
+
+    
+{% endblock %}

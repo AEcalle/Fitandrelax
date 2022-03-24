@@ -1,0 +1,118 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Relaxeo - Planning{% endblock %}
+{% block stylesheets %}
+     <link href="{{asset('bootstrap/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+     <link href="{{asset('css/calendar_admin.css')}}" rel="stylesheet"> 
+     
+{% endblock %}
+
+{% block body %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Planning</h1>
+    </div>              
+  
+    <div id="calendar"></div>
+    
+    <!-- Massages Modal-->
+    <div class="modal fade" id="MassageModal" tabindex="-1" role="dialog" aria-labelledby="Massages" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="Registration">Gestion des Massages</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <div class="row align-items-center">
+                <div class="col-sm-6 text-center">           
+                        <h2 class="h4 mb-0 text-gray-800" id="activityTitle">Massages</h2>                        
+                </div>
+               <div class="col-sm-6 text-center"> 
+                    <img src="{{asset('img/massage_vignette.jpg')}}" id="img_activity" alt="image" width="100%;" /> 
+                </div>
+            </div>
+                <br />  
+            <div class="row align-items-center">
+                <div class="col-sm-12 text-center">
+                   <div id="timeLimit"></div>
+                </div>
+            </div>
+               
+                <div id="slots">
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                              
+         
+            </div>
+        </div>
+        </div>
+    </div>    
+ 
+
+
+{% endblock %}
+{% block javascripts %} 
+         <!-- Page level plugins -->
+        <script src="{{ asset('bootstrap/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+        <script src="{{ asset('bootstrap/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+        
+        <!-- Data -->
+        <script>         
+             var ssessionsList = [];
+            
+            {% for ssession in ssessions %}
+                var oneSsession = {};
+                oneSsession["id"] = "{{ssession.id}}";
+                oneSsession["activity"] = "{{ssession.activity.name}}";  
+                oneSsession["activityColor"] = "{{ssession.activity.color}}";            
+                oneSsession["structure"] = "{{ssession.structure.name}}";
+                oneSsession["scheduledAt"] = "{{ssession.scheduledAt|date("m/d/Y")}}";
+                oneSsession["finishedAt"] = "{{ssession.finishedAt|date("m/d/Y")}}";
+                oneSsession["timeS"] = "{{ssession.scheduledAt|date("H:i")}}";
+                oneSsession["timeF"] = "{{ssession.finishedAt|date("H:i")}}";
+                oneSsession["participationMax"] = "{{ssession.participationMax}}";
+                oneSsession["timeLimit"] = "{{ssession.timeLimit|date("Y-m-d H:i:s")}}";
+                oneSsession["participation"] = "{{participations[ssession.id]}}"; 
+                oneSsession["subtitle"] = "{{ssession.subtitle}}";
+                {% if ssession.coach is defined and ssession.coach is not null  %}  
+                oneSsession["coach"] = "{{ssession.coach.fullname}}";
+                {% else %}
+                oneSsession["coach"] = "sans coach";
+                {% endif %}
+                ssessionsList.push(oneSsession);               
+            {% endfor %} 
+
+         
+            {% for event in events %}
+                var oneEvent = {};
+                oneEvent["id"] = "{{event.id}}";
+                oneEvent["createdBy"] = "{{event.createdBy}}";
+                oneEvent["subject"] = "{{event.subject}}";              
+                oneEvent["scheduledAt"] = "{{event.scheduledAt|date("m/d/Y")}}";
+                oneEvent["finishedAt"] = "{{event.finishedAt|date("m/d/Y")}}";
+                oneEvent["timeS"] = "{{event.scheduledAt|date("H:i")}}";
+                oneEvent["timeF"] = "{{event.finishedAt|date("H:i")}}";                
+                ssessionsList.push(oneEvent);              
+            {% endfor %}
+              
+           ssessionsList.sort(function(a,b){
+                if (a.timeS>b.timeS)
+                    return 1;
+                else if (a.timeS<b.timeS)
+                    return -1;
+                else
+                    return 0;
+            });
+         
+          
+              
+        </script>
+        <!-- Calendar -->
+        <script src="{{ asset('calendar/data_admin.js') }}"></script>
+        <script src="{{ asset('calendar/calendar.js') }}"></script>
+        
+{% endblock %}      

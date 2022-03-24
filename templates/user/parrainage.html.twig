@@ -1,0 +1,41 @@
+{% extends 'baseUser.html.twig' %}
+
+{% block title %}Relaxeo - Parrainage{% endblock %}
+  
+{% block body %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Parrainez vos amis et gagnez des séances gratuites !</h1>
+</div>
+<div class="row justify-content-center my-4">
+    <div class="col-12 col-lg-10 bg-white shadow rounded py-3 px-5">
+        <p class="text-center">Vous avez des amis qui aimeraient essayer les cours en ligne, mais qui n'osent 
+        pas ? <br />Vous pouvez les aider à se lancer et en être récompensé !</p>
+        <div class="text-center">
+            <img src="{{asset('img/gift.png')}}" alt="cadeau" class="img-fluid mt-4" />
+            <p class="h4 font-weight-bold my-4 mx-5">Une participation de votre filleul<br />= 
+            <br /><span class="text-success ">2 séances offertes pour vous et une séance offerte pour votre filleul ! *</span></p>
+            <p>* Offre valable pour toute création de compte de votre filleul avant le 31/01/2021</p>
+        </div>
+        <h2 class="h4 mt-5">Comment en profiter ?</h2>
+        <p>Il suffit d'indiquer l'email de votre filleul dans le formulaire ci-dessous
+        . Pour que le parrainage soit valide, la seule condition est que 
+        votre filleul n'ait encore jamais participé à une de nos séances.</p>
+        
+
+        <form class="mt-5" method="post" action="{{path('contactParrainage')}}">
+            <h2 class="h4">Formulaire de demande de parrainage</h2>
+            <p>Nous enverrons un email à votre filleul pour lui indiquer votre intention de le parrainer.</p>
+            <label for="email">Email de votre filleul</label>
+            <input type="email" class="form-control" name="email" id="email" />
+            <label for="comment">Message pour votre filleul (Facultatif)</label>
+            <textarea class="form-control" name="comment"></textarea>
+            <button type="submit" class="btn btn-success mt-3">Envoyer</button>
+        </form>
+                
+        
+    </div>
+</div>
+
+
+    
+{% endblock %}

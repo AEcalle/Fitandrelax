@@ -1,0 +1,63 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Relaxeo - Structures{% endblock %}
+{% block stylesheets %}
+     <link href="{{asset('bootstrap/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Structures</h1>
+    </div>  
+   
+    <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-success">
+                <h6 class="m-0 font-weight-bold text-gray-100">Liste des structures</h6>
+                </div>
+                <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                        <th>Nom</th>
+                        <th>Code</th>                                         
+                        <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                        <th>Nom</th>
+                        <th>Code</th>                        
+                        <th></th>      
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {% if structures is defined %}   
+                            {% for structure in structures %}
+                            <tr>
+                            <td data-sort="{{structure.name}}">
+                                {{structure.name}}
+                            </td>
+                            <td>
+                                {{structure.code}}
+                            </td>                        
+                            <td><a href="{{path('structure',{'id':structure.id})}}">Gérer</a></td>                           
+                            </tr>                          
+                            {% endfor %}
+                        {% endif %}
+                    </tbody>
+                    </table>
+                </div>                                 
+                </div>
+               
+            </div>
+    
+{% endblock %}
+
+{% block javascripts %}
+        <!-- Page level plugins -->
+        <script src="{{ asset('bootstrap/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+        <script src="{{ asset('bootstrap/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+        <!-- Page level custom scripts -->
+        <script src="{{ asset('bootstrap/js/demo/datatables-demo.js')}}"></script>
+{% endblock %}

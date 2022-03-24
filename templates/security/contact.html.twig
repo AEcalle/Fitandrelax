@@ -1,0 +1,72 @@
+{% extends 'baseSecurity.html.twig' %}
+{% block title %}Contact{% endblock %}
+{% block body %}  
+<div class="row justify-content-center no-gutters">
+  <div class="col-12 col-lg-10">
+    <div class="card o-hidden border-0 shadow-lg my-0 my-lg-3">
+      <div class="card-body p-0">
+        <div class="row justify-content-center">       
+        <div class="col-8 p-2">   
+          <div class="text-center px-0 px-lg-5">
+            <h1 class="h4 text-gray-900">Contactez-nous !</h1>                   
+              {% for message in app.flashes('notice') %}
+                <div class="alert-success">
+                  {{ message }}
+                </div>
+              {% endfor %} 
+          
+          <form class="user" method="post" action="{{path('contactExtMail')}}">
+            <div class="form-group row">
+              <div class="col-sm-12 px-0 px-lg-5">
+                <label for="email">Votre Email</label>
+                <input type="text" class="form-control" name="email" id="email" />
+                <label for="objet">Objet</label>
+                <select name="objet" id="objet" class="form-control" onchange="show_hide();">
+                  <option value="Renseignement">Demande de renseignement</option>
+                  <option value="Devis" {% if app.request.query.get('objet')=="devis" %}selected="selected"{% endif %}>Nous demander un devis pour des cours privatifs pour vos collaborateurs</option>
+                  <option value="Code" {% if app.request.query.get('objet')=="code" %}selected="selected"{% endif %}>Nous demander le code de votre lieu de travail</option>
+                  <option value="decouverte" {% if app.request.query.get('objet')=="decouverte" %}selected="selected"{% endif %}>Profiter d'une séance découverte</option>
+                  <option value="Autre">Autre</option>
+                </select>  
+                <label for="adress" id="label_adress" {% if app.request.query.get('objet')!="code" %} style="display:none"{% endif %}>Adresse de votre lieu de travail</label>
+                <input type="text" name="adress" id="adress" class="form-control" {% if app.request.query.get('objet')!="code" %} style="display:none"{% endif %} />                 
+                <label for="msg">Votre message</label>
+                <textarea id="msg" name="msg" class="form-control" rows="5"></textarea>
+              </div>
+            </div>                             
+            <button type="submit" class="btn btn-success btn-user btn-block g-recaptcha"
+            data-sitekey="6LdPSLoZAAAAAHi35x7zMKXa5ZFG332BULQABwEU" 
+            data-callback='onSubmit' 
+            data-action='submit'
+            >Envoyer</button>    
+          </form>
+          <hr>
+          <div class="col-12 text-center">   
+            <a class="small" href="{{ path('security_forgot') }}">Mot de passe oublié ?</a> -   
+            <a class="small" href="{{ path('security_login') }}">Vous avez déjà un compte ? Connectez-vous ici !</a> -           
+            <a class="small" href="{{ path('security_registration') }}">Créer un compte !</a> - 
+            <a class="small" href="{{path('security_mentions')}}">Mentions légales</a>
+        </div>  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %} 
+
+{% block javascripts %} 
+<script>
+  function show_hide(){
+    if(document.getElementById('objet').value!="Code"){
+      document.getElementById('adress').style.display = "none";
+      document.getElementById('label_adress').style.display = "none";
+    }
+    else
+    {
+      document.getElementById('adress').style.display = "block";
+      document.getElementById('label_adress').style.display = "block";
+    }
+  }
+</script>
+{% endblock %}

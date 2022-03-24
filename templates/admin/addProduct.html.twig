@@ -1,0 +1,41 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Relaxeo - Créer un Produit{% endblock %}
+
+
+{% block body %}
+     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Créer un Produit</h1>
+    </div>  
+   
+    {{ form_start(form) }}
+    {{ form_row(form._token) }}
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+           {{ form_row(form.name,{'label':'Nom', 'attr':{'class':'form-control form-control-user'}}) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.price,{'label':'Prix', 'attr':{'class':'form-control form-control-user'}}) }}              
+        </div>
+     </div>      
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+           {{ form_row(form.credits,{'label':'Credits', 'attr':{'class':'form-control form-control-user'}}) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.paypal,{'label':'Paypal', 'attr':{'class':'form-control form-control-user'}}) }}              
+        </div>
+     </div> 
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+         {{ form_row(form.ttype,{'label':'Type', 'attr':{'class':'form-control form-control-user'}}) }}
+        </div>
+      </div> 
+     <div class="form-group row">               
+        <div class="col-sm-4 mb-3 mb-sm-0">
+            {{form_row(form.submit_post,{'label':'Créer le produit','attr':{'class':'btn btn-primary'}})}}          
+        </div>
+    </div>
+   {{ form_end(form) }}
+    
+{% endblock %}

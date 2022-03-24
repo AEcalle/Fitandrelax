@@ -1,0 +1,259 @@
+{% extends 'base.html.twig' %}
+{% block title %}Bienvenue{% endblock %}
+{% block meta %}
+<meta name="description" content="Cours en ligne de yoga postural, yoga spécial télétravail">
+<meta property="og:url" content="https://www.relaxeo.net/bienvenue" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Yoga en ligne" />
+<meta property="og:description" content="Cours en ligne de yoga postural, yoga spécial télétravail" />
+<meta property="og:image" content="http://relaxeo.net/img/bienvenue.jpg" />
+<meta name="twitter:image" content="http://relaxeo.net/img/bienvenue.jpg">
+
+<script type="text/javascript">
+
+snow_img = "{{asset('img/flocon.png')}}";
+
+
+snow_no = 15;
+
+if (typeof(window.pageYOffset) == "number")
+{
+	snow_browser_width = window.innerWidth;
+	snow_browser_height = window.innerHeight;
+} 
+else if (document.body && (document.body.scrollLeft || document.body.scrollTop))
+{
+	snow_browser_width = document.body.offsetWidth;
+	snow_browser_height = document.body.offsetHeight;
+}
+else if (document.documentElement && (document.documentElement.scrollLeft || document.documentElement.scrollTop))
+{
+	snow_browser_width = document.documentElement.offsetWidth;
+	snow_browser_height = document.documentElement.offsetHeight;
+}
+else
+{
+	snow_browser_width = 500;
+	snow_browser_height = 500;	
+}
+
+snow_dx = [];
+snow_xp = [];
+snow_yp = [];
+snow_am = [];
+snow_stx = [];
+snow_sty = [];
+
+for (i = 0; i < snow_no; i++) 
+{ 
+	snow_dx[i] = 0; 
+	snow_xp[i] = Math.random()*(snow_browser_width-50);
+	snow_yp[i] = Math.random()*snow_browser_height;
+	snow_am[i] = Math.random()*20; 
+	snow_stx[i] = 0.02 + Math.random()/10;
+	snow_sty[i] = 0.7 + Math.random();
+	if (i > 0) document.write("<\div id=\"snow_flake"+ i +"\" style=\"position:absolute;z-index:"+i+"\"><\img src=\""+snow_img+"\" border=\"0\"><\/div>"); else document.write("<\div id=\"snow_flake0\" style=\"position:absolute;z-index:0\"><a href=\"http://peters1.dk/tools/snow.php\" target=\"_blank\"><\img src=\""+snow_img+"\" border=\"0\"></a><\/div>");
+}
+
+function SnowStart() 
+{ 
+	for (i = 0; i < snow_no; i++) 
+	{ 
+		snow_yp[i] += snow_sty[i];
+		if (snow_yp[i] > snow_browser_height-50) 
+		{
+			snow_xp[i] = Math.random()*(snow_browser_width-snow_am[i]-30);
+			snow_yp[i] = 0;
+			snow_stx[i] = 0.02 + Math.random()/10;
+			snow_sty[i] = 0.7 + Math.random();
+		}
+		snow_dx[i] += snow_stx[i];
+		document.getElementById("snow_flake"+i).style.top=snow_yp[i]+"px";
+		document.getElementById("snow_flake"+i).style.left=snow_xp[i] + snow_am[i]*Math.sin(snow_dx[i])+"px";
+	}
+	snow_time = setTimeout("SnowStart()", 10);
+}
+SnowStart();
+</script>
+{% endblock %}
+{% block stylesheets %}
+     <link href="{{asset('bootstrap/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+     <link href="{{asset('css/calendar_user.css')}}" rel="stylesheet"> 
+{% endblock %}
+{% block body %}
+
+<div class="row no-gutters">
+    <div class="col-12">
+        <img src="{{asset('img/bienvenue.jpg')}}" id="bandeau" alt="coaching en ligne" class="w-100" />        
+    </div>
+</div>
+<div style="position:absolute;top:15px;left:15px">
+    <img src="{{asset('img/logo5.png')}}" alt="Relaxeo" style="width:6.5em;vertical-align:-4%;" />
+</div>
+	<!--
+    <img src="{{asset('img/santas.png')}}" id="santas" style="width:85px;" alt="Offre de fin d'année"/>
+    <div id="pastille" class="rounded-circle bg-gradient-success text-center text-white mx-auto mt-5" style="width:200px;height:200px;">    
+    <span class="title2">
+    <br />Offre spéciale<br />fin d'année</span><br/><span class="font-weight-bold"><big>2 séances<br/>offertes ! *</big><br /></span>
+    </div>
+	-->
+    <div class="row no-gutters justify-content-center text-black my-5">
+        <div class="col-11 col-lg-9">
+            <p class="title1 mb-5">Planning des cours ouverts à tous.</h1>
+            <div id="calendarMobile"></div>
+            <div id="calendarDesktop"></div>
+            <div class="text-center my-5">
+                <a href="{{path('security_registration')}}" class="btn btn-lg bg-eo text-white rounded-pill title2">
+                Inscriptions</a>
+                <a href="{{path('security_login')}}" class="btn btn-lg bg-relax text-white rounded-pill title2">
+                Connexion</a>
+            </div>
+        </div>
+    </div>
+<div class="row no-gutters text-black justify-content-center">
+    <div class="col-11 col-sm-6 col-lg-3">
+        <p class="title1 mt-4">Tarifs</h1>
+        <p class="title2 my-4">Tous cours confondus</p>        
+                <ul>
+                    <li class="text-success font-weight-bold"><big>2 séances "découverte" gratuites et sans engagement ! *</big></li>
+                    <li>Séance à l'unité à partir de 8€</li>
+                </ul>         
+        <div class="text-center my-5">
+            <a href="{{path('security_registration')}}" class="btn btn-lg bg-eo text-white rounded-pill title2">
+            Inscriptions</a>
+            <a href="{{path('security_login')}}" class="btn btn-lg bg-relax text-white rounded-pill title2">
+            Connexion</a>
+        </div>
+        <p><small>* Pour toute création de compte avant le <br />31/01/2021</small></p>
+    </div>
+</div>
+<div class="row no-gutters bg-success justify-content-center py-3">
+    <div class="col-2 col-lg-1">
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.relaxeo.net/bienvenue"><img src="{{asset('img/facebook.png')}}" alt="Partage Facebook" class="w-50 img-fluid" /></a>
+    </div>
+    <div class="col-2 col-lg-1">
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.relaxeo.net/bienvenue">
+        <img src="{{asset('img/linkedin.png')}}" alt="Partage Linkedin" class="img-fluid w-50" /></a>
+    </div>
+    <div class="col-2 col-lg-1">
+        <a href="https://twitter.com/intent/tweet?lang=fr&via=FitandRelax92&url=https://www.relaxeo.net/bienvenue">
+        <img src="{{asset('img/twitter.png')}}" alt="Partage Twitter" class="img-fluid w-50" /></a>
+    </div>
+</div>
+
+<div class="modal fade" id="RegistrationModal" tabindex="-1" role="dialog" aria-labelledby="Registration" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="Registration">Prêt à vous inscrire ?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <div class="row align-items-center">
+                <div class="col-sm-6 text-center">           
+                        <h2 class="h4 mb-0 text-gray-800" id="activityTitle"></h2>                        
+                </div>
+               <div class="col-sm-6 text-center"> 
+                    <img src="" id="img_activity" alt="image" width="100%;" /> 
+                </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12">
+                <div id="activityDescription">
+                  <p class="h5 font-weight-bold" id="activityDescriptionT"></p>
+                  <p id="activityDescriptionP"></p>
+                </div>                
+                <div id="ssessionDescription">
+                  <p class="h5 font-weight-bold" id="ssessionDescriptionT"></p>
+                  <p id="ssessionDescriptionP"></p>
+                </div>
+              </div>
+            </div>  
+               
+            </div>
+            
+            <div class="modal-footer">                                       
+               <a class="btn bg-relax text-white mb-3" href="{{path('security_registration')}}"> Créer un compte</a>
+               <a class="btn bg-eo text-white mb-3" href="{{path('planning')}}">Déjà inscrit ? Accéder à votre espace</a>
+            </div>
+        </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        $(function($) {
+        if (document.getElementById('body').clientWidth<768){
+            document.getElementById('bandeau').setAttribute('src',"{{asset('img/bienvenue_mobile.jpg')}}");
+
+            var left = document.getElementById('pastille').offsetLeft;            
+            document.getElementById('santas').style.position = "absolute";        
+            document.getElementById('santas').style.left = (left+20) + 'px'; 
+                     
+            
+        }else{
+            var height = document.getElementById('bandeau').clientHeight;
+            document.getElementById('pastille').style.position = "absolute";
+            document.getElementById('pastille').style.top = (height-150) + 'px';
+            document.getElementById('pastille').style.right = 50 + 'px'; 
+            var left = document.getElementById('pastille').offsetLeft;                     
+            document.getElementById('santas').style.position = "absolute";        
+            document.getElementById('santas').style.left = (left+20) + 'px'; 
+            document.getElementById('santas').style.top = (height-148) + 'px';        
+        }  
+        });
+    </script>
+     <script>
+              var ssessionsList = [];
+            
+            {% for ssession in ssessions %}
+                var oneSsession = {};
+                oneSsession["id"] = "{{ssession.id}}";
+                oneSsession["activity"] = "{{ssession.activity.name}}";
+                oneSsession["activityColor"] = "{{ssession.activity.color}}";
+                oneSsession["structure"] = "{{ssession.structure.name}}";
+                oneSsession["scheduledAt"] = "{{ssession.scheduledAt|date("m/d/Y")}}";
+                oneSsession["finishedAt"] = "{{ssession.finishedAt|date("m/d/Y")}}";
+                oneSsession["timeS"] = "{{ssession.scheduledAt|date("H:i")}}";
+                oneSsession["timeF"] = "{{ssession.finishedAt|date("H:i")}}";
+                oneSsession["participationMax"] = "{{ssession.participationMax}}";
+                oneSsession["subtitle"] = "{{ssession.subtitle}}";
+                oneSsession["timeLimit"] = "{{ssession.timeLimit|date("Y-m-d H:i:s")}}";
+                oneSsession["ssessionDescription"] = "{{ssession.description|replace({"\n":' ', "\r":' ','"':"&quot;","'":'&lsquo;'})|raw}}"; 
+                oneSsession["activityDescription"] = "{{ssession.activity.description|replace({"\n":' ', "\r":' ','"':"&quot;","'":'&lsquo;'})|raw}}"; 
+            
+                {% if ssession.location is not null %}
+                  oneSsession["location"] = "{{ssession.location.name}}";  
+                {% else %}   
+                   oneSsession["location"]  = "";  
+                {% endif %}
+                {% if ssession.coach is defined and ssession.coach is not null  %}  
+                oneSsession["coach"] = "{{ssession.coach.firstname}}";
+                {% else %}
+                oneSsession["coach"] = "";
+                {% endif %}    
+                                           
+                ssessionsList.push(oneSsession);           
+               
+
+            {% endfor %} 
+          </script>
+
+          <script>
+              if(document.body.clientWidth<768){
+                var calendar = document.getElementById('calendarMobile');                
+              }else{
+                var calendar = document.getElementById('calendarDesktop');
+              }
+              calendar.id = 'calendar';             
+
+          </script>
+
+         
+         
+          <script src="{{ asset('calendar/data_public.js') }}"></script>
+          <script src="{{ asset('calendar/calendar.js') }}"></script> 
+{% endblock %}

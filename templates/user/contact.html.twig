@@ -1,0 +1,33 @@
+{% extends 'baseUser.html.twig' %}
+
+{% block title %}Relaxeo - Contact{% endblock %}
+  
+{% block body %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Contact</h1>        
+    </div>
+
+    <form method="post" action="{{path('contactIntMail')}}">
+                <div class="form-group row">
+                  <div class="col-sm-6">
+                    <label for="objet">Objet</label>
+                    <select name="objet" id="objet" class="form-control">
+                      <option value="Inscription/Désinscription">Inscription/Désinscription</option>
+                      <option value="Commande">Commande</option>
+                      <option value="Parrainage">Parrainage</option>                     
+                      <option value="Autre">Autre</option>
+                    </select> 
+                   
+                    <label for="msg">Votre message</label>
+                    <textarea id="msg" name="msg" class="form-control" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                     <button type="submit" class="btn btn-success btn-user btn-block">Envoyer</button> 
+                  </div>
+                </div>
+                              
+                      
+        </form>
+{% endblock %} 

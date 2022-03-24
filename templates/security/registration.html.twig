@@ -1,0 +1,76 @@
+{% extends 'baseSecurity.html.twig' %}
+{% block title %}Inscription{% endblock %}
+{% block meta %}
+<meta name="description" content="Cours en ligne de yoga postural, yoga spécial télétravail">
+<meta property="og:url" content="https://www.relaxeo.net/inscription" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Yoga en ligne" />
+<meta property="og:description" content="Cours en ligne de yoga postural, yoga spécial télétravail" />
+<meta property="og:image" content="http://relaxeo.net/img/bienvenue.jpg" />
+<meta name="twitter:image" content="http://relaxeo.net/img/bienvenue.jpg">
+{% endblock %}
+{% block body %}
+<div class="row justify-content-center no-gutters">
+  <div class="col-12 col-lg-10">
+    <div class="card o-hidden border-0 shadow-lg my-0 my-lg-3">
+      <div class="card-body">
+        <div class="row justify-content-center">
+          <div class="col-12 col-lg-4">
+            <div class="text-center">
+                  <h1 class="h4 text-gray-900 my-4">Inscription sur <img src="{{asset('img/logo5.png')}}" alt="relaxeo" style="width:4em;vertical-align:-4%;" /></h1>
+                  <p class="my-4">Sur Relaxeo vous pourrez vous inscrire à des séances de sport et relaxation en ligne ou sur votre lieu de travail. <strong>L'inscription à Relaxeo est gratuite et sans engagement.</strong></p>
+            </div>
+          </div>
+        </div>
+        {{ form_start(form,{'attr':{'class':'user'}}) }}
+        <div class="row justify-content-center">
+          <div class="col-12 col-lg-4">
+              <div class="text-center">
+                <div class="alert-primary"> 
+                  {{ form_errors(form) }}
+                  {{ form_errors(form.password) }}    
+                  {{ form_errors(form.email) }}
+                  {% if erreurCode is defined %} {{ erreurCode }} {% endif %}
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-12 col-lg-4"> 
+            <div class="form-group">
+                {{ form_row(form.email,{'label':'Email', 'attr':{'class':'form-control form-control-user my-3','tabindex':'1','autofocus':''}}) }}                                      
+                {{ form_row(form.password,{'label':'Choisissez un mot de Passe', 'attr':{'class':'form-control form-control-user my-3','tabindex':'2'}}) }}
+            
+                <label href="#code" id="linkCode">
+                Code entreprise*</label>                
+                <input type="text" name="code" id="code" class="form-control form-control-user my-3" tabindex="3" />
+                *Obligatoire pour accéder au planning des séances de votre entreprise.
+                 Si vous ne le connaissez pas, <a href="{{path('security_contact',{'objet':'code'})}}">vous pouvez nous le demander ici.</a>
+             </div>                        
+          </div>
+        </div>
+        
+        <div class="row justify-content-center">
+          <div class="col-8 col-lg-4">               
+            <button type="submit" class="btn btn-success btn-user btn-block mb-2">
+              Créer votre compte
+            </button>             
+            <p class="small">Vous pourrez, à tout moment, modifier ou supprimer vos données sur votre espace Relaxeo ou <a href="{{path('security_contact')}}">en nous en faisant la demande.</a></p>
+            {{ form_end(form) }}
+          </div>
+        </div>  
+        <div class="row">
+          <div class="col-12 text-center">           
+              <a class="small" href="{{ path('security_login') }}">Vous avez déjà un compte ? Connectez-vous ici !</a> -           
+              <a class="small" href="{{ path('security_contact') }}">Nous contacter</a> - 
+              <a class="small" href="{{path('security_mentions')}}">Mentions légales</a>          
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

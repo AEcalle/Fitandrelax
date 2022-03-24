@@ -1,0 +1,163 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Relaxeo - Créer une séance{% endblock %}
+
+
+{% block body %}
+     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Créer une séance</h1>
+    </div>  
+   
+    {{ form_start(form) }}
+    {{ form_row(form._token) }}
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+           {{form_row(form.activity,{'label':'Activité ','attr':{'class':'form-control form-control-user'}})}}
+        
+        </div>
+        <div class="col-sm-6">
+            {{form_row(form.structure,{'label':'Structure ','attr':{'class':'form-control form-control-user','onchange':'printproducts();'}})}}    
+        </div>
+     </div>
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            {{form_row(form.subtitle,{'label':'Sous-titre','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+         <div class="col-sm-6">
+            {{form_row(form.description,{'label':'Description','attr':{'class':'form-control form-control-user'}})}}
+         </div>
+    </div>
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            {{form_row(form.scheduledAt,{'label':'Début','attr':{'class':'form-control form-control-user',}})}}
+        </div>
+        <div class="col-sm-6">
+           {{form_row(form.finishedAt,{'label':'Fin','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+     </div>
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            {{form_row(form.participationMax,{'label':'Nombre de places','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+        <div class="col-sm-6">
+            {{form_row(form.timeLimit,{'label':'Heure limite pour s\'inscrire','attr':{'class':'form-control form-control-user'}})}}
+        </div> 
+     </div>
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+               {{form_row(form.coach,{'label':'Coach ','attr':{'class':'form-control form-control-user'}})}}    
+        </div>
+        <div class="col-sm-6">
+               {{form_row(form.location,{'label':'Lieu ','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+               {{form_row(form.idZoom,{'label':'ID Zoom ','attr':{'class':'form-control form-control-user'}})}}    
+        </div>
+        <div class="col-sm-6">
+               {{form_row(form.passZoom,{'label':'Pass Zoom ','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+    </div>
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">              
+              <input type="checkbox" name="off" id="off" />
+              <label for="off">Autoriser les inscriptions hors connexion</label>
+        </div>
+     </div>
+    <div class="form-group row">
+       <div class="col-sm-6 mb-3 mb-sm-0" id="div_products">
+
+       </div>
+    </div>
+     <div class="form-group row">               
+        <div class="col-sm-4 mb-3 mb-sm-0">
+            {{form_row(form.submit_post,{'label':'Enregistrer la séance','attr':{'class':'btn btn-success'}})}} 
+          
+        </div>
+    </div>
+
+    
+{% endblock %}
+
+{% block javascripts %} 
+    <script>
+    if (document.getElementById('ssession_scheduledAt').value==""){
+        var defaultScheduledAt = new Date().toISOString().substring(0,11)+"12:00";
+        var defaultFinishedAt = new Date().toISOString().substring(0,11)+"13:00";
+        var timeLimit = new Date().toISOString().substring(0,11)+"12:00";
+        document.getElementById('ssession_scheduledAt').value = defaultScheduledAt;
+        document.getElementById('ssession_finishedAt').value = defaultFinishedAt;
+        document.getElementById('ssession_timeLimit').value = timeLimit;
+    }
+       
+
+    var locationsList = [];
+    {% if locations is defined %}
+        {% for location in locations %}
+        var OneLocation = {};
+        OneLocation["id"] = "{{location.id}}";
+        OneLocation["name"] = "{{location.name}}";
+        OneLocation["structure"] = "{{location.structure.id}}";
+        locationsList.push(OneLocation);
+        {% endfor %}
+    {% endif %}
+
+   
+
+    {% if products is defined %}
+        
+        var productsList = [];
+        {% for product in products %}
+            var oneProduct = {};
+            oneProduct["id"] = "{{product.id}}";
+            oneProduct["name"] = "{{product.name}}";
+            oneProduct["price"] = "{{product.price}}";
+            productsList.push(oneProduct);
+        {% endfor %}
+
+        var catalogsList = [];
+        {% for catalog in catalogs %}
+            var oneCatalog = {};
+            oneCatalog["id"] = "{{catalog.id}}";
+            oneCatalog["productId"] = "{{catalog.product.id}}";
+            oneCatalog["structureId"] = "{{catalog.structureId}}";
+            catalogsList.push(oneCatalog);
+        {% endfor %}
+
+    
+        printproducts();
+
+        function printproducts(){
+            var id = document.getElementById('ssession_structure').value;
+            var div_products = document.getElementById('div_products')
+           while (div_products.firstChild){
+                    div_products.removeChild(div_products.firstChild);
+            }
+           
+            for (var catalog in catalogsList){            
+                if (catalogsList[catalog].structureId==id){                                       
+                    for (var product in productsList){                    
+                        if (catalogsList[catalog].productId==productsList[product].id){
+                            var p = document.createElement('p');
+                            div_products.appendChild(p);
+                            var checkbox = document.createElement('input');
+                            checkbox.setAttribute('type','checkbox');
+                            checkbox.setAttribute('id',productsList[product].name);
+                            checkbox.setAttribute('name',productsList[product].id);  
+                             checkbox.setAttribute('checked','checked');                          
+                            p.appendChild(checkbox);
+                            var label = document.createElement('label');
+                            label.setAttribute('for',productsList[product].id);
+                            var text = document.createTextNode(' '+productsList[product].name+' '+productsList[product].price);
+                            p.appendChild(label);
+                            label.appendChild(text);                            
+                            
+                        }
+                    }
+                }
+            }
+        }
+        {% endif %}
+        </script>
+{% endblock %}

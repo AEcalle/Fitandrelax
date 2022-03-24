@@ -1,0 +1,49 @@
+{% extends 'baseSecurity.html.twig' %}
+{% block title %}Mot de Passe oublié{% endblock %}
+{% block body %}
+<div class="row justify-content-center no-gutters">
+  <div class="col-12 col-lg-10">
+    <div class="card o-hidden border-0 shadow-lg my-0 my-lg-4">
+      <div class="card-body p-0">
+        <div class="row">
+          <div class="col-lg-6 d-none d-lg-block"  
+          style="background:url({{asset('img/diaporama/3.jpg')}});background-position:center;background-size:cover"></div>
+          <div class="col-lg-6 p-5">     
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-2">Vous avez oublié votre mot de passe ?</h1>
+              <p class="mb-4">Pas de souci ! Saisissez votre adresse email ici et nous vous enverrons 
+              un lien par email pour choisir un nouveau mot de passe !</p>
+              {% for message in app.flashes('notice') %}
+                <div class="alert-success">
+                  {{ message }}
+                </div>
+              {% endfor %} 
+            </div>
+            <form class="user" method="post" action="{{path('resetPasswordMail')}}">
+              <div class="form-group">
+                <input type="email" class="form-control form-control-user" id="email" name="email" aria-describedby="emailHelp" placeholder="Adresse email...">
+              </div>
+              <button type="submit" class="btn btn-success btn-user btn-block">
+                Envoyer
+              </button>
+            </form>
+            <hr>
+            <div class="text-center">
+              <a class="small" href="{{ path('security_registration') }}">Créer un compte !</a>
+            </div>
+            <div class="text-center">
+              <a class="small" href="{{ path('security_login') }}">Vous avez déjà un compte ? Connectez-vous !</a>
+            </div>
+            <div class="text-center">
+              <a class="small" href="{{ path('security_contact') }}">Nous contacter</a>
+            </div>
+            <div class="text-center">
+              <a class="small" href="{{path('security_mentions')}}">Mentions légales</a>
+            </div>          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    {% endblock %}

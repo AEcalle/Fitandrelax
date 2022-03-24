@@ -1,0 +1,21 @@
+#calendar table{    
+    width: 100%;     
+}
+
+#calendar td{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    width : 16.66%;          
+}
+
+ 
+
+/* Link inherit class "btn btn-primary btn-icon-split btn-sm" */
+#calendar a{
+    display:block;
+    text-align:left;
+    font-size: 12px;
+    margin-bottom: 3px;
+}

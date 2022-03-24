@@ -1,0 +1,314 @@
+{% extends 'baseUser.html.twig' %}
+
+{% block title %}Relaxeo - Planning{% endblock %}
+{% block stylesheets %}
+     <link href="{{asset('bootstrap/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+     <link href="{{asset('css/calendar_user.css')}}" rel="stylesheet"> 
+{% endblock %}
+
+{% block body %}
+      <div class="row my-3">
+          <div class="col-12">
+            {% if app.user.lastname == "" %}
+                  <p class="alert-success p-2">Bienvenue sur Relaxeo ! Vous vous trouvez sur la page du 
+                  planning, où vous pourrez vous inscrire aux séances. Il vous faudra 
+                  <a href="{{path('profile')}}">compléter votre profil</a> avec vos noms et 
+                  prénoms, avant votre première inscription, pour que nos coachs sachent comment vous appeler :-) . </p> 
+            {% endif %}
+            {% if app.user.emailVerify == 0 %}
+              <p class="alert-success p-2">Votre adresse email n'est pas vérifiée. Un email vous a été envoyé avec un lien de vérification.
+              Si vous ne l'avez pas reçu, <a href="{{path('profile')}}">vérifiez votre adresse email en cliquant ici</a>, et cliquez ensuite sur "Renvoyer le lien de vérification"</p>
+            {% endif %}
+          </div>
+      </div>  
+     <div class="row align-items-center justify-content-between mb-4">
+        <div class="col-12 col-md-6">
+          <h1 class="h3 mb-0 text-gray-800">Planning</h1>
+
+        </div>
+        <div class="col-12 col-md-6">
+               
+                {% if credits is not empty %}
+                  <div class="card shadow mt-4 my-lg-4">
+                
+                    <a href="#collapseCardCredit" class="d-block card-header py-3 text-gray-100 bg-success"
+                    data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardCredit">
+                      <h6 class="m-0 font-weight-bold">Crédit disponible</h6>
+                    </a>                
+                    <div class="collapse" id="collapseCardCredit">
+                      <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                              <div class="table-responsive">
+                                  <table class="table table-bordered" width="100%" cellspacing="0">
+                                    <thead>
+                                      <tr>
+                                        <th>Produit</th>
+                                        <th>Nombre de séances restantes</th>                     
+                                      </tr>
+                                    </thead>
+                                    <tbody> 
+                                      {% for credit in credits %}                                     
+                                      {% if amounts[credit.id]!=0 %}
+                                        <tr>
+                                        <td>{{productsName[credit.id]}}</td>
+                                        <td> {{amounts[credit.id]}}</td>                                          
+                                        </tr>
+                                      {% endif %}
+                                 
+                                      {% endfor %}
+                                    </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>      
+                {% endif %}
+             
+        </div>
+    </div>
+    <div class="row">        
+         <div class="col-12 col-md-6">
+            <div class="card shadow mb-4">
+              
+                <a href="#collapseCardLegend" class="d-block card-header py-3 text-gray-100 bg-relax"
+                data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardLegend">
+                  <h6 class="m-0 font-weight-bold">Planning - Mode d'emploi</h6>
+                </a>
+            
+                <div class="collapse" id="collapseCardLegend">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-12">
+                        <p class="justify">Pour vous inscrire à une activité, cliquez sur la séance de votre choix dans le calendrier ci-dessous.</p>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <p><i class="fa fa-check" aria-hidden="true"></i> Vous êtes inscrit</p>
+                            <p><i class="fa fa-times" aria-hidden="true"></i> Vous n'êtes pas inscrit</p>
+                            <p><i class="fa fa-spinner" aria-hidden="true"></i> Vous êtes sur liste d'attente</p>
+                        </div>
+                         <div class="col-lg-6">
+                            <p><i class="fa fa-users" aria-hidden="true"></i> Nombre maximum de participants</p>
+                            <p id="legendLocation" style="display:none;"><i class="fa fa-map-marker" aria-hidden="true"></i> Lieu</p>
+                            <p id="legendLocation"><i class="fa fa-desktop" aria-hidden="true"></i> Séance en ligne</p>
+                         </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+         </div>         
+         <div class="col-12 col-md-6">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Accordion -->
+                <a href="#collapseCardSubscription" class="d-block card-header py-3 text-gray-100 bg-eo"
+                data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseCardSubscription">
+                  <h6 class="m-0 font-weight-bold">Vos inscriptions et invitations (CODES ZOOM)</h6>
+                </a>
+                <!-- Card Content - Collapse -->
+                <div class="collapse" id="collapseCardSubscription">
+                  <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12" id="savedSubscriptions">
+                         <p class="font-weight-bold">Vos inscriptions</p>   
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12" id="savedInvitations">
+                          <p class="font-weight-bold">Vos invitations</p>  
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12" id="savedWaitings">
+                          <p class="font-weight-bold">Liste d'attente</p>  
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+         </div>
+    </div>
+    <div id="calendar"></div>
+    
+
+    <!-- Registration Modal-->
+    <div class="modal fade" id="RegistrationModal" tabindex="-1" role="dialog" aria-labelledby="Registration" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="Registration">Prêt à vous inscrire ?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            </div>
+            <div class="modal-body">
+              <div class="row align-items-center">
+                  <div class="col-sm-6 text-center">           
+                          <h2 class="h4 mb-0 text-gray-800" id="activityTitle"></h2>                        
+                  </div>
+                <div class="col-sm-6 text-center"> 
+                      <img src="" id="img_activity" alt="image" width="100%;" /> 
+                  </div>
+              </div>               
+           
+              <div class="row align-items-center mt-3">
+                  <div class="col-sm-12 text-center">
+                    <div id="timeLimit"></div>
+                  </div>
+              </div>
+               
+                <div id="slots">
+                </div>                        
+              <div class="row mt-3">
+                <div class="col-12 text-center">
+                  <div id="subscription_form">
+                        {{form_start(form)}}
+                        {{form_row(form.userId,{'attr':{'value':app.user.id}})}}
+                        {{form_row(form.ssessionId)}} 
+                        {% if app.user.lastname != "" %}                   
+                          {{form_row(form.submit_post,{'label':'S\'inscrire','attr':{'class':'btn btn-success m-auto'}})}}
+                         {% else %}
+                          Pour vous inscrire, veuillez <a href="{{path('profile')}}">compléter votre profil</a> avec vos nom et prénom.
+                          {{form_row(form.submit_post,{'label':'S\'inscrire','attr':{'class':'btn btn-success m-auto d-none'}})}}
+                        {% endif %}
+                        {{form_row(form.delete_post,{'label':'Se désinscrire','attr':{'class':'btn btn-success m-auto'}})}}
+                        {{form_end(form)}} 
+                  </div>           
+                  <div id="subscription_waitinglist" style="display:none;">
+                      {{form_start(form_waiting)}}
+                      {{form_row(form_waiting.userId,{'attr':{'value':app.user.id}})}}
+                      {{form_row(form_waiting.ssessionId)}}
+                      {% if app.user.lastname != "" %}
+                        {{form_row(form_waiting.submit_post,{'label':'S\'inscrire sur liste d\'attente','attr':{'class':'btn btn-success m-auto'}})}}
+                      {% else %}
+                          Pour vous inscrire, veuillez <a href="{{path('profile')}}">compléter votre profil</a> avec vos nom et prénom.
+                          {{form_row(form_waiting.submit_post,{'label':'S\'inscrire sur liste d\'attente','attr':{'class':'btn btn-success m-auto d-none'}})}}
+                      {% endif %}
+                      {{form_row(form_waiting.delete_post,{'label':'Se retirer de la liste d\'attente','attr':{'class':'btn btn-success m-auto'}})}}
+                      {{form_end(form_waiting)}}
+                  </div>
+                  <div id="subscription_timeLimit" style="display:none;">
+                    {% if app.user.lastname != "" %}
+                      <p>Heure limite pour s'inscrire dépassée.</p>
+                    {% else %}
+                          Pour vous inscrire, veuillez <a href="{{path('profile')}}">compléter votre profil</a> avec vos nom et prénom.
+                    {% endif %}
+                  </div>
+                  <div id="subscription_credit" style="display:none;">
+                    {% if app.user.lastname != "" %}
+                      <p class="text-danger">Vous n'avez pas suffisament de crédit pour vous inscrire. <a href="{{path('purchase')}}">Acheter des crédits</a></p>
+                    {% else %}
+                          Pour vous inscrire, veuillez <a href="{{path('profile')}}">compléter votre profil</a> avec vos nom et prénom.
+                    {% endif %}
+                  </div> 
+                  {% if app.user.lastname != "" %}
+                    <a href="" class="mt-2" id="invitation" style="display:none;">Ou inviter un(e) collègue/ un(e) proche</a>
+                  {% endif %}
+                </div>                                  
+              </div>
+            </div>
+            <div class="modal-footer">
+
+                <div class="row mt-3">
+                  <div class="col-12">
+                    <div id="activityDescription">
+                      <p class="h5 font-weight-bold" id="activityDescriptionT"></p>
+                      <p id="activityDescriptionP"></p>
+                    </div>                
+                    <div id="ssessionDescription">
+                      <p class="h5 font-weight-bold" id="ssessionDescriptionT"></p>
+                      <p id="ssessionDescriptionP"></p>
+                    </div>
+                  </div>
+                </div>              
+
+            </div>
+        </div>
+        </div>
+    </div>    
+
+{% endblock %}
+{% block javascripts %} 
+         <!-- Page level plugins -->
+        <script src="{{ asset('bootstrap/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+        <script src="{{ asset('bootstrap/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+        
+        <!-- Data twig to javascript -->
+        <script>
+             
+             
+             
+             
+             var ssessionsList = [];
+            
+            {% for ssession in ssessions %}
+                var oneSsession = {};
+                oneSsession["id"] = "{{ssession.id}}";
+                oneSsession["activity"] = "{{ssession.activity.name}}";
+                oneSsession["activityColor"] = "{{ssession.activity.color}}"; 
+                oneSsession["structure"] = "{{ssession.structure.name}}";
+                oneSsession["scheduledAt"] = "{{ssession.scheduledAt|date("m/d/Y")}}";
+                oneSsession["finishedAt"] = "{{ssession.finishedAt|date("m/d/Y")}}";
+                oneSsession["timeS"] = "{{ssession.scheduledAt|date("H:i")}}";
+                oneSsession["timeF"] = "{{ssession.finishedAt|date("H:i")}}";
+                oneSsession["participationMax"] = "{{ssession.participationMax}}";
+                oneSsession["timeLimit"] = "{{ssession.timeLimit|date("Y-m-d H:i:s")}}";               
+                {% if ssession.location is not null %}
+                  oneSsession["location"] = "{{ssession.location.name}}";  
+                {% else %}   
+                   oneSsession["location"]  = "";  
+                {% endif %}     
+                oneSsession["participation"] = "{{participations[ssession.id]}}"; 
+
+                oneSsession["already"] = "{{already[ssession.id]}}";               
+                oneSsession["enoughCredit"] = "{{enoughCredit[ssession.id]}}";
+                oneSsession["already_waiting"] = "{{already_waiting[ssession.id]}}"; 
+                oneSsession["waitingNumero"] = "{{waitingNumero[ssession.id]}}";
+                oneSsession["invitation"] = "{{invitation[ssession.id]}}";    
+                oneSsession["idZoom"] = "{{ssession.idZoom}}";  
+                oneSsession["passZoom"] = "{{ssession.passZoom}}"; 
+                oneSsession["subtitle"] = "{{ssession.subtitle}}"; 
+               oneSsession["ssessionDescription"] = "{{ssession.description|replace({"\n":' ', "\r":' ','"':"&quot;","'":'&lsquo;'})|raw}}"; 
+                oneSsession["activityDescription"] = "{{ssession.activity.description|replace({"\n":' ', "\r":' ','"':"&quot;","'":'&lsquo;'})|raw}}";                                        
+                ssessionsList.push(oneSsession);
+
+                if (oneSsession["already"]=="yes"){
+          
+                    document.getElementById('savedSubscriptions').innerHTML += '{{ssession.scheduledAt|date("d/m/Y")}}'
+                    +' '+oneSsession["timeS"]+'-'+oneSsession["timeF"]+' '+oneSsession["activity"].replace(/_/g,' ')+'<br />';
+                    if (oneSsession["idZoom"]!=""){
+                      document.getElementById('savedSubscriptions').innerHTML += '<strong>ID Zoom</strong> :'+oneSsession["idZoom"];
+                    }  
+                     if (oneSsession["passZoom"]!=""){
+                      document.getElementById('savedSubscriptions').innerHTML += ' <strong>Mot de passe Zoom</strong> :'+oneSsession["passZoom"]+'<br /> <a href="https://zoom.us/join" target="_blank">Rejoindre la séance</a> ';
+                    }  
+                }
+
+                 if (oneSsession["invitation"]=="yes"){
+                  
+                    document.getElementById('savedInvitations').innerHTML += '{{ssession.scheduledAt|date("d/m/Y")}}'
+                    +' '+oneSsession["timeS"]+'-'+oneSsession["timeF"]+' '+oneSsession["activity"].replace(/_/g,' ')+'<br />';
+                }
+
+                 if (oneSsession["already_waiting"]=="yes"){
+                  
+                    document.getElementById('savedWaitings').innerHTML += '{{ssession.scheduledAt|date("d/m/Y")}}'
+                    +' '+oneSsession["timeS"]+'-'+oneSsession["timeF"]+' '+oneSsession["activity"].replace(/_/g,' ')+'<br />';
+                }
+
+                if (oneSsession["location"]!=""){
+                  document.getElementById('legendLocation').style.display = "block";
+                }
+
+            {% endfor %} 
+
+                 var path ="{{path('planning')}}";        
+        </script>
+        <!-- Calendar -->
+        <script src="{{ asset('calendar/data_user.js') }}"></script>
+        <script src="{{ asset('calendar/calendar.js') }}"></script>
+        
+{% endblock %}        

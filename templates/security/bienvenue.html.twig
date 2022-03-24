@@ -1,0 +1,226 @@
+{% extends 'base.html.twig' %}
+{% block title %}Bienvenue{% endblock %}
+{% block meta %}
+<meta name="description" content="Cours en ligne de yoga spécial télétravail">
+<meta property="og:url" content="https://www.relaxeo.net/bienvenue" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Yoga en ligne" />
+<meta property="og:description" content="Cours en ligne de yoga spécial télétravail" />
+<meta property="og:image" content="http://relaxeo.net/img/bienvenue.jpg" />
+<meta name="twitter:image" content="http://relaxeo.net/img/bienvenue.jpg">
+
+{% endblock %}
+
+{% block body %}
+<div class="row no-gutters">
+    <div class="col-12">
+        <img src="{{asset('img/bienvenue.jpg')}}" id="bandeau" alt="coaching en ligne" class="w-100" />
+        
+    </div>
+</div>
+<div style="position:absolute;top:15px;left:15px">
+    <img src="{{asset('img/logo_fitandrelax.png')}}" alt="Fit & Relax" style="width:10.5em;vertical-align:-4%;" />
+</div>
+
+<div class="row no-gutters text-black justify-content-center bienvenue">
+    <div class="col-11 col-lg-9">
+        <p class="title1 mt-5">Ateliers bien-être spécial télétravail</h1>
+        <p class="title2 my-4">Séances de 45 minutes / tous niveaux </p>
+     
+        <p class="text-center my-4">Ces ateliers alliant <strong>yoga sur chaise et sophrologie</strong>
+        travaillent les 
+        synergies corps/mental en associant <strong>exercice physique, respiration contrôlée et 
+        visualisation positive.</strong> Ils s'adaptent à vos conditions de télétravail ne nécessitant 
+        aucun matériel autre que votre chaise, votre table et votre canapé pour la relaxation.</p>
+ 
+   
+        <div class="row my-4 justify-content-center">
+            <div class="col-11 col-lg-5">
+                <div class="card shadow my-3">
+                    <div class="card-header bg-success text-center">
+                        <p class="text-white h5 mb-lg-3">Détente profonde </p>
+                        <a href="#collapseCardDetente" data-toggle="collapse" role="button" 
+                        aria-expanded="false" aria-controls="collapseCardDetente" 
+                        class="btn btn-light btn-sm">+ d'infos
+                        </a>                      
+                    </div>
+                    <div class="collapse" id="collapseCardDetente">
+                        <div class="card-body">
+                            Cet atelier sera axé autour d'exercices relaxants de 
+                            sophrologie pour éliminer les tensions physiques, 
+                            mentales et émotionnelles, de mouvements doux et de 
+                            postures restauratives pour rééquilibrer le système 
+                            nerveux et d’une visualisation positive pour parfaire la 
+                            détente.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+            </div>      
+            <div class="col-11 col-lg-5">
+                <div class="card shadow my-3">
+                    <div class="card-header bg-relax text-center">
+                        <p class="text-white h5 mb-lg-3">Circulation et déblocages </p>
+                        <a href="#collapseCardDetox" class="btn btn-light btn-sm"  
+                        data-toggle="collapse" role="button" aria-expanded="false" 
+                        aria-controls="collapseCardDetox">+ d'infos</a>
+                    </div>
+                    <div class="collapse" id="collapseCardDetox">
+                        <div class="card-body">
+                            Cet atelier s’organisera dans un premier temps, 
+                            autour d’exercices de sophrologie et d’étirements doux 
+                            pour libérer le corps des blocages et des nœuds. 
+                            Puis un ensemble de postures de yoga vous permettra de 
+                            favoriser la circulation sanguine, lymphatique et 
+                            énergétique dans votre métabolisme.
+                        </div>
+                    </div>
+                </div>
+            </div>         
+        </div>
+        <div class="row my-4 justify-content-center">
+            <div class="col-11 col-lg-5">
+                <div class="card shadow my-3">
+                    <div class="card-header bg-eo text-center">
+                    <p class="text-white h5 mb-lg-3">Maintien et Posture</p>
+                        <a href="#collapseCardMaintien" class="btn btn-light btn-sm" 
+                        data-toggle="collapse" role="button" aria-expanded="false" 
+                        aria-controls="collapseCardMaintien">+ d'infos</a>
+                    </div>
+                    <div class="collapse" id="collapseCardMaintien">
+                        <div class="card-body">
+                            Séance de 45 min tous niveaux. Travail sur le dos, les épaules, la nuque et l'ensemble des membres supérieurs pour éliminer les tensions corporelles et corriger sa posture. 
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="col-2">
+            </div>                   
+            <div class="col-11 col-lg-5">
+                <div class="card shadow my-3">
+                    <div class="card-header bg-success text-center">
+                    <p class="text-white h5 mb-lg-3">Equilibre nerveux</p>
+                        <a href="#collapseCardEquilibre" class="btn btn-light btn-sm" 
+                        data-toggle="collapse" role="button" aria-expanded="false" 
+                        aria-controls="collapseCardEquilibre">+ d'infos</a>
+                    </div>
+                    <div class="collapse" id="collapseCardEquilibre">
+                        <div class="card-body">
+                            Séance de 45 min tous niveaux. Travail de postures énergisantes et relaxantes favorisant l’équilibre du système nerveux pour une meilleure maitrise émotionnelle et une meilleure gestion du stress. 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="row my-4 justify-content-center">      
+            <div class="col-11 col-lg-5">
+                <div class="card shadow my-3">
+                    <div class="card-header bg-relax text-center">
+                    <p class="text-white h5 mb-lg-3">Boost immunitaire</p>
+                        <a href="#collapseCardBoost" class="btn btn-light btn-sm" 
+                        data-toggle="collapse" role="button" aria-expanded="false" 
+                        aria-controls="collapseCardBoost">+ d'infos</a>
+                    </div>
+                    <div class="collapse" id="collapseCardBoost">
+                        <div class="card-body">
+                            Séance de 45 min tous niveaux. Travail sur des postures et exercices permettant de stimuler le système lymphatique et ainsi booster le système immunitaire pour renforcer ses défenses naturelles. 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-11 col-lg-5">
+                <div class="card shadow my-3">
+                    <div class="card-header bg-eo text-center">
+                        <p class="text-white h5 mb-lg-3">Régénération émotionnelle</p>
+                        <a href="#collapseCardEmotion" data-toggle="collapse" role="button" 
+                        aria-expanded="false" aria-controls="collapseCardEmotion" 
+                        class="btn btn-light btn-sm">+ d'infos
+                        </a>                      
+                    </div>
+                    <div class="collapse" id="collapseCardEmotion">
+                        <div class="card-body">
+                            Séance de 45 min tous niveaux. Exercices physiques et mentaux pour évacuer la pression accumulée tout au long d'une année anxiogène et détendre les tensions afin de démarrer sainement 2021.
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        <div class="row my-4 justify-content-center">             
+            <div class="col-11 col-lg-5">
+                <div class="card shadow my-3">
+                    <div class="card-header bg-success text-center">
+                        <p class="text-white h5 mb-lg-3">Haut du dos</p>
+                        <a href="#collapseCardHaut" class="btn btn-light btn-sm"  
+                        data-toggle="collapse" role="button" aria-expanded="false" 
+                        aria-controls="collapseCardHaut">+ d'infos</a>
+                    </div>
+                    <div class="collapse" id="collapseCardHaut">
+                        <div class="card-body">
+                            Séance de 45 min tous niveaux. Travail sur la nuque, les épaules et l'ensemble du trapèze dorsal pour soulager les douleurs et libérer les tensions accumulés en haut du dos et au niveau du cou. 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+            </div>
+            <div class="col-11 col-lg-5">
+                <div class="card shadow my-3">
+                    <div class="card-header bg-relax text-center">
+                        <p class="text-white h5 mb-lg-3">Bas du dos</p>
+                        <a href="#collapseCardBas" class="btn btn-light btn-sm" 
+                        data-toggle="collapse" role="button" aria-expanded="false" 
+                        aria-controls="collapseCardBas">+ d'infos</a>
+                    </div>
+                    <div class="collapse" id="collapseCardBas">
+                        <div class="card-body">
+                            Séance de 45 min tous niveaux. Travail sur le bas du dos et la région lombaire afin de libérer les pressions accumulées, se détendre pleinement et prévenir les lombalgies. 
+                        </div>
+                    </div>
+                </div>
+            </div>     
+        </div>      
+    </div>   
+</div>
+<div class="row no-gutters text-black justify-content-center">
+    <div class="col-12">
+        <p class="title1 mt-4">Testez gratuitement et sans engagement ! </h1>
+    </div>
+</div>
+<div class="row no-gutters justify-content-center">
+    <div class="col-7 col-lg-1 text-center">
+        <img src="{{asset('img/seance_decouverte.png')}}" alt="" class="img-fluid">
+    </div>
+    <div class="col-lg-1">
+    </div>
+    <div class="col-11 col-lg-4 align-self-center">        
+        <p class="my-4 text-judtify">
+        Jusqu'au 31 mars 2021, <strong>Fit & Relax vous offre une séance test (45')</strong> en petit comité (élus CSE, décisionnaires...). 
+        L'occasion de vérifier par vous-même si notre service convient à votre projet. </p>
+    </div>
+</div>
+<div class="row no-gutters text-black justify-content-center">
+    <div class="col-11">
+        <div class="text-center my-4">
+            <a href="{{path('security_contact',{'objet':'decouverte'})}}" class="btn btn-lg bg-relax text-white rounded-pill title2">
+            J'en profite !</a>
+        </div>
+    </div>
+</div>
+<div class="row no-gutters bg-success justify-content-center py-3">
+    <div class="col-2 col-lg-1">
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.relaxeo.net/bienvenue"><img src="{{asset('img/facebook.png')}}" alt="Partage Facebook" class="w-50 img-fluid" /></a>
+    </div>
+    <div class="col-2 col-lg-1">
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.relaxeo.net/bienvenue">
+        <img src="{{asset('img/linkedin.png')}}" alt="Partage Linkedin" class="img-fluid w-50" /></a>
+    </div>
+    <div class="col-2 col-lg-1">
+        <a href="https://twitter.com/intent/tweet?lang=fr&via=FitandRelax92&url=https://www.relaxeo.net/bienvenue">
+        <img src="{{asset('img/twitter.png')}}" alt="Partage Twitter" class="img-fluid w-50" /></a>
+    </div>
+</div>
+
+{% endblock %}

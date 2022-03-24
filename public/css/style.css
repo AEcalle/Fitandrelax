@@ -1,0 +1,64 @@
+@font-face {
+    font-family: 'Bukhari Script';
+    src: url('../font/BukhariScript.woff2') format('woff2'),
+        url('../font/BukhariScript.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
+.bg-green{
+    background-color:rgb(201,226,101) !important;
+}
+
+.text-black{
+    color: black;
+}
+
+.title1, .title2{
+    font-family: "Bukhari Script";
+    text-align: center;
+}
+
+.title1{
+    font-size: 2rem !important;
+}
+
+.title2{
+    font-size: 1.5rem !important;
+}
+
+.title3{
+    font-size: 1.4rem !important;
+    text-align: center;
+}
+
+.bienvenue .card-header{
+    height : 120px;
+}
+
+.bienvenue .card-header a{
+    position: relative;   
+}
+
+.bienvenue a[data-toggle="collapse"]:after{ 
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f25a";  
+    position: absolute;    
+    font-size: 1.2rem;     
+    top: 70%;
+    left : 50%;    
+}
+
+/* Uniquement pour IE10 et IE11 */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .form-control-user
+        {
+            padding: 0rem !important;
+            border-radius: 0rem !important;
+        
+        }
+}

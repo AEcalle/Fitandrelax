@@ -1,0 +1,187 @@
+{% extends 'baseUser.html.twig' %}
+
+{% block title %}Relaxeo - Tableau de bord{% endblock %}
+{% block stylesheets %}
+     <link href="{{asset('bootstrap/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+{% endblock %}
+{% block body %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Historique</h1>
+    </div>
+
+          <div class="row">           
+
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-relax shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-relax text-uppercase mb-1">Crédits disponibles</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{credit}}</div>
+                      </div>
+                      <div class="col-auto">
+                      
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> 
+
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-eo shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-eo text-uppercase mb-1">Nombre de participations</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{nbParticipations}}</div>
+                      </div>
+                      <div class="col-auto">
+                  
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+          </div>
+          <br />
+            <div class="row">
+              <div class="col-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 bg-success">                    
+                      <br />
+                      <h6 class="m-0 font-weight-bold">
+                        <a href="#" class="link-table  text-gray-100" id="link_participations" 
+                        onclick="modif_table('participations');" 
+                        style="border-bottom : 1px solid white;padding:2px;">
+                        Vos participations</a>
+                        <a href="#" class="link-table  text-gray-100" id="link_invitations" 
+                        onclick="modif_table('invitations');" 
+                        style="padding:2px;">Vos Invitations</a>                      
+                        <a href="#" class="link-table  text-gray-100" id="link_orders" 
+                        onclick="modif_table('orders');" 
+                        style="padding:2px;">Vos commandes</a>
+                      </h6>
+                    </div>
+                  <div class="card-body hide-table" id="participations">
+                      <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                          <thead>
+                            <tr>
+                              <th>Date</th>
+                              <th>Activité</th>                     
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                              <th>Date</th>
+                              <th>Activité</th>                     
+                            </tr>
+                          </tfoot>
+                          <tbody>                    
+                            {% for ssession in ssessions %}
+                            <tr>
+                              <td data-sort="{{ssession.scheduledAt|date("Y/m/d")}}">{{ssession.scheduledAt|date("d/m/Y")}}</td>
+                              <td>{{ssession.activity.name}}</td>
+                            </tr>
+                            {% endfor %}                
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                     <div class="card-body hide-table" id="invitations" style="display:none;">
+                      <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+                          <thead>
+                            <tr>
+                              <th>Date</th>
+                              <th>Activité</th>                     
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                              <th>Date</th>
+                              <th>Activité</th>                     
+                            </tr>
+                          </tfoot>
+                          <tbody>                    
+                            {% for ssession_invitation in ssessions_invitations %}
+                            <tr>
+                              <td data-sort="{{ssession_invitation.scheduledAt|date("Y/m/d")}}">{{ssession_invitation.scheduledAt|date("d/m/Y")}}</td>
+                              <td>{{ssession_invitation.activity.name}}</td>
+                            </tr>
+                            {% endfor %}                              
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="card-body hide-table" id="orders" style="display:none;">
+                      <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable3" width="100%" cellspacing="0">
+                          <thead>
+                            <tr>
+                              <th>Date</th>
+                              <th>Produit</th>                                                 
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                              <th>Date</th>
+                              <th>Produit</th>                                                  
+                            </tr>
+                          </tfoot>
+                          <tbody>                                            
+                            {% for oorder in oorders %}                          
+                              <tr>
+                                <td data-sort="{{oorder.createdAt|date("Y/m/d")}}">{{oorder.createdAt|date("d/m/Y H:i")}}</td>
+                                <td>
+                                {% if products[oorder.id] is not null %}
+                                {{products[oorder.id].name}}
+                                {% endif %}
+                                </td>                                
+                              </tr>                          
+                            {% endfor %}                                          
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+             
+
+              
+                
+           
+
+          
+
+        
+
+
+{% endblock %}
+{% block javascripts %} 
+         <!-- Page level plugins -->
+        <script src="{{ asset('bootstrap/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+        <script src="{{ asset('bootstrap/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+        <!-- Page level custom scripts -->
+        <script src="{{ asset('bootstrap/js/demo/datatables-demo.js')}}"></script>
+
+        <script>
+              function modif_table(id){
+                var cardBody = document.getElementsByClassName('hide-table');
+                var length = cardBody.length;
+                for(var i = 0;i<length;i++){
+                  cardBody[i].style.display = "none";
+                }
+                var links = document.getElementsByClassName('link-table');
+                length = links.length;
+                for(var i = 0;i<length;i++){
+                  links[i].style.borderBottom = "0px solid transparent";
+                }
+                document.getElementById(id).style.display = "block";
+                document.getElementById('link_'+id).style.borderBottom = "1px solid white";
+            }
+        </script>
+{% endblock %}

@@ -1,0 +1,23 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'baseSecurity.html.twig' %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-xl-10 col-lg-12 col-md-9">
+        <div class="card o-hidden border-0 shadow-lg my-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                    <h1>Page introuvable</h1>
+
+                    <p>
+                        La page demandée n'a pas été trouvée. Vérifiez l'url ou cliquez sur le lien suivant pour
+                        <a href="{{ path('home') }}">retourner à l'accueil</a>.
+                    </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

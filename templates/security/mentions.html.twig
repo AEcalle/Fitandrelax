@@ -1,0 +1,56 @@
+{% extends 'baseSecurity.html.twig' %}
+
+{% block title %}Relaxeo - Mentions légales{% endblock %}
+  
+{% block body %}
+<div class="row justify-content-center no-gutters">
+  <div class="col-12 col-lg-10">
+    <div class="card o-hidden border-0 shadow-lg my-3">
+      <div class="card-body py-2">
+        <div class="text-center px-0 px-lg-5">
+            <h1 class="h4 text-gray-900 mb-4">Mentions légales</h1>
+        </div>
+        <div class="row px-0 px-lg-5">
+            <div class="col-6">
+                <p>Raison sociale</p>
+                <p>Forme juridique</p>
+                <p>Siège social</p>
+                <p>Capital social</p>
+                <p>RCS </p>
+                <p>Numéro de TVA intracommunautaire</p>
+                <p>Responsable de la publication </p>
+                <p>Hébergeur</p>
+                <p>Contact</p>
+            </div>
+            <div class="col-6">
+                <p>Fit & Relax</p>
+                <p>Société par actions simplifiée</p>
+                <p>58 quai de Dion Bouton 92800 Puteaux</p>
+                <p>9000 euros</p>
+                <p>818 505 539 Nanterre</p>
+                <p>FR 41 818 505 539</p>
+                <p>Fit & Relax</p>
+                <p><a href="https://www.ionos.fr" target="_blank">1&1 IONOS SARL</a></p>
+                <p><a href="{{path('security_contact')}}">Nous contacter</a></p>
+            </div>
+          </div>
+          <hr>
+          <div class="text-center">
+            <a class="small" href="{{ path('security_forgot') }}">Mot de passe oublié ?</a>
+          </div>
+          <div class="text-center">
+            <a class="small" href="{{ path('security_login') }}">Vous avez déjà un compte ? Connectez-vous ici !</a>
+          </div>
+          <div class="text-center">
+            <a class="small" href="{{ path('security_registration') }}">Créer un compte !</a>
+          </div>
+          <div class="text-center">
+          <a class="small" href="{{path('security_contact')}}">Nous contacter</a>
+          </div>             
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

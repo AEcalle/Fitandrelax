@@ -1,0 +1,65 @@
+{% extends 'baseCoach.html.twig' %}
+
+{% block title %}Relaxeo - Participations{% endblock %}
+
+{% block body %}
+     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Informations sur la séance</h1>
+    </div>
+    <p><strong>Activité :</strong> {{ssession.activity.name}}</p>
+    <p><strong>Date et Horaire :</strong> {{ssession.scheduledAt|date("d/m/Y H:i")}}</p>
+    <p><strong>Adresse :</strong> 
+    {% if ssession.location is not null %}
+        {% if ssession.location.name == "En ligne" %}
+        En ligne
+        {% else %}
+            {{ssession.location.name~' '~ssession.location.adress}}
+        {% endif %}  
+    {% else %}
+        {{ssession.structure.locations[0].name~' '~ssession.structure.locations[0].adress}}
+    {% endif %}</p>
+    {% if ssession.idZoom is not null %}
+        <p><strong>ID ZOOM</strong> : {{ssession.idZoom }} - 
+        {% if ssession.passZoom is not null %}
+        <strong>Mot de passe Zoom</strong> : {{ssession.passZoom }}
+        </p>
+        {% endif %}
+    {% endif %}
+    <hr>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h2 class="h3 mb-0 text-gray-800">Inscrits</h1>
+    </div>
+
+    <form method="post" action="{{path('coachParticipations',{'id':ssession.id})}}"> 
+    <input type="hidden" name="presents" />
+    {% set AucunInscrit = 1 %}             
+    {% if participations is defined %}
+        {% for participation in  participations %}
+            {% if participation is not null %}
+                {% set AucunInscrit = 0 %}
+                <p><input type="checkbox" name="{{listParticipants[participation.id].id}}" 
+                {% if participation.present==1 %} checked="checked" {% endif %}/> 
+                {{listParticipants[participation.id].fullname}}</p>
+            {% endif %}
+        {% endfor %}
+        {% if AucunInscrit == 1 %}
+            <p>Aucun inscrit</p>
+        {% else %}
+            <p>Veuillez cocher les cases en face des personnes présentes puis cliquez sur "Enregistrer les présents". 
+            Vous pouvez modifier la liste des présents autant de fois que nécessaire. </p>
+            <input type="submit" class="btn btn-primary" value="Enregistrer les présents" />
+        {% endif %}
+    {% endif %}
+    
+    </form>
+    <hr>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h2 class="h3 mb-0 text-gray-800">Remarques sur la séance</h1>
+    </div>
+    <form method="post" action="{{path('coachMail',{'id':ssession.id})}}">
+        <p>Nous envoyer vos éventuelles remarques sur la séance.</p>
+        <textarea class="form-control" name="coachComment"></textarea>
+        <br />
+        <input type="submit" class="btn btn-primary" value="Envoyer" />
+    </form>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Relaxeo - Créer une structure{% endblock %}
+
+
+{% block body %}
+     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Créer une structure</h1>
+    </div>  
+   
+    {{ form_start(form) }}
+    {{ form_row(form._token) }}
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+           {{ form_row(form.name,{'label':'Nom', 'attr':{'class':'form-control form-control-user'}}) }}
+        </div>
+        <div class="col-sm-6">
+            {{ form_row(form.code,{'label':'Code', 'attr':{'class':'form-control form-control-user'}}) }}              
+        </div>
+     </div>
+      <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">              
+              <input type="checkbox" name="publicSsessions" id="publicSsessions" />
+              <label for="publicSsessions">Autoriser la visibilité des cours ouverts à tous dans le planning</label>
+        </div>
+     </div>
+      <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <div>
+            <label for="location_name1">Lieu (Nom)</label>
+            <input type="text" id="location_name1" name="location_name1" maxlength="255" class="form-control form-control-user" />
+            </div>    
+         </div>
+         <div class="col-sm-6">
+            <div>
+            <label for="location_adress1">Lieu (Adresse)</label>
+            <input type="text" id="location_adress1" name="location_adress1" maxlength="255" class="form-control form-control-user" />
+            </div>             
+         </div>
+      </div>
+      <div id="locationPlus">
+      </div>
+      <input type="hidden" id="nb_locations" value="1" />
+      <a href="#" onclick="addLocation();">Ajouter un lieu</a>
+      <br /><br /> 
+     <div class="form-group row">               
+        <div class="col-sm-4 mb-3 mb-sm-0">
+            {{form_row(form.submit_post,{'label':'Créer la structure','attr':{'class':'btn btn-success'}})}}          
+        </div>
+    </div>
+   {{ form_end(form) }}
+    
+{% endblock %}
+
+{% block javascripts %}
+   <script>
+      function addLocation(){
+         var numero = parseInt(document.getElementById('nb_locations').value) + 1;
+         document.getElementById('nb_locations').value = numero;
+         if (numero<=20){
+            var container = document.getElementById('locationPlus');
+            var row = document.createElement('div');
+            row.setAttribute('class','form-group row');
+            var colLeft = document.createElement('div');
+            colLeft.setAttribute('class','col-sm-6 mb-3 mb-sm-0');
+            var colRight = document.createElement('div');
+            colRight.setAttribute('class','col-sm-6 mb-3 mb-sm-0');
+            var inputName = document.createElement('input');
+            inputName.setAttribute('type','text');
+            inputName.setAttribute('id','location_name'+numero);
+            inputName.setAttribute('name','location_name'+numero);
+            inputName.setAttribute('maxlength','255');
+            inputName.setAttribute('class','form-control form-control-user');
+            var inputAdress = document.createElement('input');
+            inputAdress.setAttribute('type','text');
+            inputAdress.setAttribute('id','location_adress'+numero);
+            inputAdress.setAttribute('name','location_adress'+numero);
+            inputAdress.setAttribute('maxlength','255');
+            inputAdress.setAttribute('class','form-control form-control-user');
+            var labelName = document.createElement('label');
+            labelName.setAttribute('for','location_name'+numero);
+            var labelAdress = document.createElement('label');
+            labelAdress.setAttribute('for','location_adress'+numero);
+
+            container.appendChild(row);
+            row.appendChild(colLeft);
+            row.appendChild(colRight);
+            colLeft.appendChild(labelName);
+            colRight.appendChild(labelAdress);
+            colLeft.appendChild(inputName);
+            colRight.appendChild(inputAdress);
+            labelName.appendChild(document.createTextNode("Lieu (nom)"));
+            labelAdress.appendChild(document.createTextNode("Lieu (adresse)"));
+         }
+         else{
+            alert("L'ajout est limité à 20 lieux maximum.");
+         }
+      }
+   </script>
+{% endblock %}
+

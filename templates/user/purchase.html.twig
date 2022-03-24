@@ -1,0 +1,62 @@
+{% extends 'baseUser.html.twig' %}
+
+{% block title %}Relaxeo - Profil{% endblock %}
+  
+{% block body %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Achat de crédits</h1>
+    </div>
+
+     <div class="row">
+     <div class="col-12 col-md-3">
+     </div>
+    <div class="col-12 col-md-6">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3 bg-success">  
+         </div>
+    <div class="card-body hide-table">
+        <form method="post" action="{{path('payment')}}">
+         <div class="form-group row">
+        Sélectionner votre produit et votre mode de paiement avant de poursuivre votre commande.
+        </div>
+        <div class="form-group row">
+            <select name="product" class = "form-control form-control-user">
+          
+                {% for product in products|sort((a, b) => a.price <=> b.price) %}
+                    {% if product.id != 40 or app.session.get('structure').id != 23 %}
+                    <option value="{{product.id}}">{{product.name}}  {{product.price}} euros</option>
+                    {% endif %}
+                {% endfor %}
+       
+            </select>
+        </div>
+        <div class="form-group row">       
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="payplug" value="payplug" name="plateforme" required/> 
+                    <label class="form-check-label" for="payplug"><img src="{{asset('img/payplug.png')}}" width="100px" alt="Payplug"/></label>  (Paiement par carte bancaire)
+                </div>       
+        </div>
+        <div class="form-group row">    
+        <div class="form-check">
+                <input type="radio" class="form-check-input" id="paypal_radio" value="paypal" name="plateforme" /> 
+                <label class="form-check-label" for="paypal_radio"><img src="{{asset('img/paypal.png')}}" width="80px" alt="Paypal"/></label> (Paiement par carte bancaire ou compte Paypal)
+        </div>
+        </div>
+        <div class="form-group row">
+            <div class="form-check">
+                <input type="checkbox" name="cgu" id="cgu" required /> En cochant cette case, vous confirmez avoir lu et accepté <a href="{{path('cgv')}}" target="_blank">nos conditions générales.</a>
+            </div>
+        </div>
+  
+                <button type="submit" class="btn btn-success btn-user btn-block">Poursuivre votre commande
+                </button>
+     
+        </form>
+    
+        </div>
+
+    </div>
+    </div>
+    </div>
+    
+{% endblock %}

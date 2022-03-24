@@ -1,0 +1,196 @@
+{% extends 'base.html.twig' %}
+{% block title %}Fit{% endblock %}
+{% block meta %}
+<meta name="description" content="Cours en ligne, abdos-fessiers, circuit training, réveil musculaire">
+<meta property="og:url" content="https://www.relaxeo.net/fit" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Sport en ligne" />
+<meta property="og:description" content="Cours en ligne, abdos-fessiers, circuit training, réveil musculaire" />
+<meta property="og:image" content="http://relaxeo.net/img/fit_mobile.jpg" />
+<meta name="twitter:image" content="http://relaxeo.net/img/fit_mobile.jpg">
+
+{% endblock %}
+
+{% block body %}
+<div class="row no-gutters">
+    <div class="col-12">
+        <img src="{{asset('img/fit.jpg')}}" id="bandeau" alt="coaching en ligne" class="w-100" />
+        
+    </div>
+</div>
+<div style="position:absolute;top:15px;left:15px">
+    <img src="{{asset('img/logo_fitandrelax.png')}}" alt="Fit & Relax" style="width:10.5em;vertical-align:-4%;" />
+</div>
+    <!--
+    <div id="pastille" class="rounded-circle bg-gradient-primary text-center text-white mx-auto mt-5" style="width:200px;height:200px;">    
+    <span class="title2">
+    <br />Offre spéciale<br /></span><br/><span class="font-weight-bold"><big>2 séances<br/>offertes ! *</big><br /></span>
+    </div> 
+    --> 
+
+<div class="row no-gutters text-black justify-content-center bienvenue">
+    <div class="col-11 col-lg-10">
+        {% for message in app.flashes('notice') %}
+            <div class="alert-success p-2">
+                {{ message }}
+              </div>
+        {% endfor %}   
+        <p class="title1 my-5">Cours collectifs en ligne et interactifs</p>       
+        <p class="text-center h5">Profitez de l'expérience de nos coachs pour vous maintenir en forme sans bouger de chez vous.</p>
+        <div class="row my-5 justify-content-center">        
+            <div class="col-11 col-lg-4">
+            <p class="h5 font-weight-bold text-center">Mardi 9H15 - Vendredi 9H15</p>
+                <div class="card shadow my-3">
+                    <div class="card-header bg-gradient-success text-center">
+                        <p class="text-white h5 mb-lg-3">Réveil corporel</p>
+                        <a href="#collapseCardEmotion" data-toggle="collapse" role="button" 
+                        aria-expanded="false" aria-controls="collapseCardEmotion" 
+                        class="btn btn-light btn-sm">+ d'infos
+                        </a>                      
+                    </div>
+                    <div class="collapse" id="collapseCardEmotion">
+                        <div class="card-body">
+                            <p class="text-center font-weight-bold">
+                            Séance de 45 min tous niveaux. 
+                            </p>
+                            <p>
+                            Une séance de réveil corporel a pour objectif de se mettre dans les meilleures conditions physiques et mentales avant d’entamer votre journée de travail. 
+                            <p>
+                            Réveil des articulations et échauffement musculaire tout en douceur permettront de prévenir les troubles musculo squelettiques et commencer la journée du bon pied.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>             
+            <div class="col-11 col-lg-4">
+                <p class="h5 font-weight-bold text-center">Lundi 12H30 - Jeudi 9H15</p>
+                <div class="card shadow my-3">
+                    <div class="card-header bg-gradient-warning text-center">
+                        <p class="text-white h5 mb-lg-3">Cuisses abdos fessiers</p>
+                        <a href="#collapseCardCAF" class="btn btn-light btn-sm"  
+                        data-toggle="collapse" role="button" aria-expanded="false" 
+                        aria-controls="collapseCardCAF">+ d'infos</a>
+                    </div>
+                    <div class="collapse" id="collapseCardCAF">
+                        <div class="card-body">
+                            <p class="text-center font-weight-bold">
+                            Séance de 45 min tous niveaux 
+                            </p>
+                            <p>
+                            Pratique de renforcement musculaire concentrée essentiellement sur le milieu et le bas du corps notamment quadriceps, adducteurs, ventre, taille, petit et grand fessier. 
+                            </p>
+                            <p>
+                            Les exercices se déroulent au sol et en poids de corps. Idéal pour s’assouplir, sculpter votre corps et améliorer votre endurance  musculaire.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>               
+            <div class="col-11 col-lg-4">
+                <p class="h5 font-weight-bold text-center">Lundi 9H15 - Mercredi / Jeudi 12H30</p>
+                <div class="card shadow my-3">
+                    <div class="card-header bg-gradient-danger text-center">                        
+                        <p class="text-white h5 mb-lg-3">Circuit Training</p>
+                        <a href="#collapseCardCT" class="btn btn-light btn-sm"  
+                        data-toggle="collapse" role="button" aria-expanded="false" 
+                        aria-controls="collapseCardCT">+ d'infos</a>
+                    </div>
+                    <div class="collapse" id="collapseCardCT">
+                        <div class="card-body">
+                            <p class="text-center font-weight-bold">
+                            Séance de 45 min tous niveaux.
+                            </p>
+                            <p>
+                            Le circuit training est une méthode d’entraînement full body (haut et bas du corps) sans matériel alternant exercices de renforcement musculaire et phases cardio. 
+                            </p>
+                            <p>
+                            Complet, ludique et efficace, c’est l’entraînement tout indiqué pour brûler des calories, entretenir sa silhouette et améliorer sa condition physique générale.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+                        
+        </div>
+         <div class="text-center my-5">
+            <a href="{{path('security_registration')}}" class="btn btn-lg bg-dark text-white rounded-pill title2">
+            Inscriptions</a>
+        </div>      
+    </div>   
+</div>
+<div class="row no-gutters bg-gradient-primary text-white justify-content-center">
+    <div class="col-11 col-sm-6 col-lg-5">
+        <p class="title1 my-5">Tarifs cours collectifs</h1>
+        <p class="title2 my-4">Tous cours confondus</p>        
+                <ul>
+                    <li class="font-weight-bold"><big>2 séances "découverte" gratuites et sans engagement ! *</big></li>
+                    <li>Séance à l'unité à partir de 8€</li>
+                </ul>         
+        <div class="text-center my-4">
+            <a href="{{path('security_registration')}}" class="btn btn-lg bg-dark text-white rounded-pill title2">
+            Inscriptions</a>
+        </div>
+        <!-- <p><small>* Pour toute création de compte avant le 31/01/2021</small></p>  -->
+    </div>
+</div>
+<div class="row no-gutters text-black justify-content-center">
+    <div class="col-11 col-sm-6 col-lg-5">
+       <p class="title1 my-5">Cours particuliers</p>
+       <p>Nos meilleurs coachs rien que pour vous, pour des cours en ligne depuis chez vous.</p>
+       <p>Intéressé(e) par des cours particuliers ? Faites-nous votre demande via ce formulaire,
+       nous vous recontacterons dès que possible pour organiser une première séance.</p>
+       <form method="post" action="{{path('coursPart')}}" class="my-5">
+        <div class="form-group">
+            <label for="email">Votre email</label>
+            <input type="email" class="form-control" id="email" name="email" />
+            <label for="activity">Activité</label>
+            <select name="activity" id="activity" class="form-control">
+                <option value="Réveil Corporel">Réveil Corporel</option>
+                <option value="Cuisses Abdos Fessiers">Cuisses Abdos Fessiers</option>
+                <option value="Circuit Training">Circuit Training</option>
+            </select>
+        </div>
+         <label for="message">Précisez ici vos préférences en termes de jour et d'horaires
+         et toute information qui pourrait nous être utile pour organiser 
+         votre première séance</label>
+         <textarea name="message" id="message" class="form-control" rows="6"></textarea>
+         <div class="text-center">
+            <button type="submit" class="btn btn-lg bg-dark text-white rounded-pill title2 mt-5">
+            Envoyer</button>
+        </div>
+       </form>
+    </div>
+</div>
+<div class="row no-gutters bg-primary justify-content-center py-3">
+    <div class="col-2 col-lg-1 mx-3 text-white align-self-center">
+        Partager
+    </div>
+    <div class="col-2 col-lg-1">
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.relaxeo.net/bienvenue"><img src="{{asset('img/facebook.png')}}" alt="Partage Facebook" class="w-50 img-fluid" /></a>
+    </div>  
+    <div class="col-2 col-lg-1">
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.relaxeo.net/bienvenue">
+        <img src="{{asset('img/linkedin.png')}}" alt="Partage Linkedin" class="img-fluid w-50" /></a>
+    </div>
+    <div class="col-2 col-lg-1">
+        <a href="https://twitter.com/intent/tweet?lang=fr&via=FitandRelax92&url=https://www.relaxeo.net/bienvenue">
+        <img src="{{asset('img/twitter.png')}}" alt="Partage Twitter" class="img-fluid w-50" /></a>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+    $(function($) {
+        if (document.getElementById('body').clientWidth<768){
+            document.getElementById('bandeau').setAttribute('src',"{{asset('img/fit_mobile.jpg')}}");                     
+            
+        }else{
+            var height = document.getElementById('bandeau').clientHeight;
+            document.getElementById('pastille').style.position = "absolute";
+            document.getElementById('pastille').style.top = (height-150) + 'px';
+            document.getElementById('pastille').style.right = 50 + 'px';                  
+        }  
+    });
+    </script>
+{% endblock %}

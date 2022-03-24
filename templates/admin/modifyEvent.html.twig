@@ -1,0 +1,53 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Relaxeo - Modifier un événement{% endblock %}
+
+
+{% block body %}
+     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Modifier un événement</h1>
+    </div>  
+   
+    {{ form_start(form) }}
+    {{ form_row(form._token) }}
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+           {{form_row(form.subject,{'label':'Objet ','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+        <div class="col-sm-6">
+            {{form_row(form.place,{'label':'Emplacement','attr':{'class':'form-control form-control-user'}})}}    
+        </div>
+     </div>
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            {{form_row(form.scheduledAt,{'label':'Début','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+        <div class="col-sm-6">
+           {{form_row(form.finishedAt,{'label':'Fin','attr':{'class':'form-control form-control-user'}})}}
+        </div>
+     </div>
+     <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            {{form_row(form.comment,{'label':'Commentaire','attr':{'class':'form-control form-control-user'}})}} 
+        </div>
+        <div class="col-sm-6">
+               {{form_row(form.private)}} 
+        </div>
+     </div>
+    <div class="form-group row">
+       <div class="col-sm-6 mb-3 mb-sm-0" id="div_products">
+
+       </div>
+    </div>
+     <div class="form-group row">               
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            {{form_row(form.submit_post,{'label':'Modifier','attr':{'class':'btn btn-success'}})}}
+        </div>
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            {{form_row(form.delete_post,{'label':'Supprimer','attr':{'class':'btn btn-primary'}})}}
+        </div>
+    </div>
+   
+    
+{% endblock %}
+

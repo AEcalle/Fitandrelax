@@ -1,0 +1,329 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Relaxeo - Tableau de bord{% endblock %}
+{% block stylesheets %}
+     <link href="{{asset('bootstrap/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+   
+{% endblock %}
+{% block body %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Tableau de Bord</h1>
+    </div>
+ 
+        <div class="row">
+            
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-relax shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Aujourd'hui</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{today_nb_ssessions}} séance(s)</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-eo shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Demain</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{tommorow_nb_ssessions}} séance(s)</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        
+        </div>   
+    
+
+
+       <div class="row">
+              <div class="col-12">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 bg-success">                    
+                      <br />
+                      <h6 class="m-0 font-weight-bold">
+                        <a href="#" class="link-table  text-gray-100" id="link_visites" 
+                        onclick="modif_table('visites');" 
+                        style="border-bottom : 1px solid white;padding:2px;">
+                        Dernières visites</a>
+                        <a href="#" class="link-table  text-gray-100" id="link_participations" 
+                        onclick="modif_table('participations');" 
+                        style="padding:2px;">
+                        Inscriptions aux séances</a>   
+                        <a href="#" class="link-table  text-gray-100" id="link_optouts" 
+                        onclick="modif_table('optouts');" 
+                        style="padding:2px;">
+                        Désinscriptions aux séances</a>                                         
+                        <a href="#" class="link-table  text-gray-100" id="link_relaxeo" 
+                        onclick="modif_table('relaxeo');" 
+                        style="padding:2px;">Créations compte Relaxeo</a>
+                         <a href="#" class="link-table  text-gray-100" id="link_sponsorships" 
+                        onclick="modif_table('sponsorships');" 
+                        style="padding:2px;">Parrainages</a>
+                      </h6>
+                    </div>
+                    <div class="card-body hide-table" id="visites">
+                      <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable4" width="100%" cellspacing="0">
+                          <thead>
+                            <tr>
+                              <th>Date</th>                              
+                              <th>Nom</th>
+                              <th>Prénom</th> 
+                              <th>Structure</th>
+                              <th>Email</th>                    
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                              <th>Date</th>                              
+                              <th>Nom</th>
+                              <th>Prénom</th>  
+                              <th>Structure</th>
+                              <th>Email</th>                   
+                            </tr>
+                          </tfoot>
+                          <tbody>                    
+                            {% for tracker in trackers %}
+                              {% if trackersUser[tracker.id] is defined and trackersUser[tracker.id] is not null  %}
+                                {% if trackersUser[tracker.id].aadmin != 1 and trackersUser[tracker.id].coach != 1  %}
+                                  <tr>
+                                    <td data-sort="{{tracker.createdAt|date("Y/m/d H:i:s")}}">{{tracker.createdAt|date("d/m/Y H:i")}}</td>                             
+                                    <td>{{trackersUser[tracker.id].lastname}}</td>
+                                    <td>{{trackersUser[tracker.id].firstname}}</td>  
+                                    <td>{{trackersUser[tracker.id].structure.name}}</td>
+                                    <td>{{trackersUser[tracker.id].email}}</td>                               
+                                  </tr>
+                                {% endif %}
+                              {% endif %}
+                            {% endfor %}   
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  <div class="card-body hide-table" id="participations" style="display:none;">
+                      <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                          <thead>
+                            <tr>
+                              <th>Date Inscription</th>
+                              <th>Date Séance</th>
+                              <th>Structure</th>
+                              <th>Activité</th>
+                              <th>Nom</th>
+                              <th>Prénom</th>                                                   
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                              <th>Date Inscription</th>
+                              <th>Date Séance</th>
+                              <th>Structure</th>
+                              <th>Activité</th>
+                              <th>Nom</th>
+                              <th>Prénom</th>                     
+                            </tr>
+                          </tfoot>
+                          <tbody>                    
+                            {% for participation in participations %}
+                            <tr>
+                              <td data-sort="{{participation.createdAt|date("Y/m/d H:i:s")}}">{{participation.createdAt|date("d/m/Y H:i")}}</td>
+                              <td>{{participationsScheduledAt[participation.id]|date("d/m/Y H:i")}}</td>
+                              <td>
+                              {% if participationsStructures[participation.id] is defined and participationsStructures[participation.id] is not null %}
+                              {{participationsStructures[participation.id]}}
+                              {% endif %}
+                              </td>
+                              <td>{% if participationsActivity[participation.id] is not null %}
+                              {{participationsActivity[participation.id].name|replace({"_":" "})}}
+                              {% endif %}</td>
+                              <td>{% if participationsUsers[participation.id] is defined and participationsUsers[participation.id] is not null %}
+                              {{participationsUsers[participation.id].lastname}}
+                              {% endif %}</td>
+                              <td>{% if participationsUsers[participation.id] is defined and participationsUsers[participation.id] is not null %}
+                              {{participationsUsers[participation.id].firstname}}
+                              {% endif %}</td>                              
+                            </tr>
+                            {% endfor %}   
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="card-body hide-table" id="optouts" style="display:none;">
+                      <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+                          <thead>
+                            <tr>
+                              <th>Date désinscription</th>
+                              <th>Date Séance</th>
+                              <th>Structure</th>
+                              <th>Activité</th>
+                              <th>Nom</th>
+                              <th>Prénom</th>                     
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                              <th>Date désinscription</th>
+                              <th>Date Séance</th>
+                              <th>Structure</th>
+                              <th>Activité</th>
+                              <th>Nom</th>
+                              <th>Prénom</th>                     
+                            </tr>
+                          </tfoot>
+                          <tbody>                    
+                            {% for optout in optouts %}
+                            <tr>
+                              <td data-sort="{{optout.createdAt|date("Y/m/d H:i:s")}}">{{optout.createdAt|date("d/m/Y H:i")}}</td>
+                              <td>{{optoutsSsessionScheduledAt[optout.id]|date("d/m/Y H:i")}}</td>
+                              <td>
+                              {% if optoutsStructures[optout.id] is defined and optoutsStructures[optout.id] is not null %}
+                              {{optoutsStructures[optout.id]}}
+                              {% endif %}
+                              </td>
+                              <td>{% if optoutsActivity[optout.id] is defined and optoutsActivity[optout.id] is not null %}
+                              {{optoutsActivity[optout.id].name|replace({"_":" "})}}
+                              {% endif %}</td>
+                              <td>{% if optoutsUsers[optout.id] is defined and optoutsUsers[optout.id] is not null %}
+                              {{optoutsUsers[optout.id].lastname}}
+                              {% endif %}</td>
+                              <td>{% if optoutsUsers[optout.id] is defined and optoutsUsers[optout.id] is not null %}
+                              {{optoutsUsers[optout.id].firstname}}
+                              {% endif %}</td>                              
+                            </tr>
+                            {% endfor %}   
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>                                          
+                    <div class="card-body hide-table" id="relaxeo" style="display:none;">
+                      <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable3" width="100%" cellspacing="0">
+                          <thead>
+                            <tr>
+                              <th>Date</th>
+                              <th>Structure</th>                           
+                              <th>Nom</th>
+                              <th>Prénom</th> 
+                              <th>Email</th>                                                
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                              <th>Date</th>
+                              <th>Structure</th>                             
+                              <th>Nom</th>
+                              <th>Prénom</th>
+                              <th>Email</th>                                                   
+                            </tr>
+                          </tfoot>
+                          <tbody>                                            
+                           
+                              {% for user in users %}
+                              {% if user.coach == 0 and user.aadmin == 0 %}
+                                <tr>
+                                  <td data-sort="{{user.createdAt|date("Y/m/d H:i:s")}}">{{user.createdAt|date("d/m/Y H:i")}}</td>
+                                  <td>{% if user.structure is not null %}{{user.structure.name}}{% endif %}</td>
+                                  <td>{{user.lastname}}</td>
+                                  <td>{{user.firstname}}</td> 
+                                  <td>{{user.email}}</td>                                                        
+                                </tr>
+                              {% endif %}
+                            {% endfor %}   
+                                                                 
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="card-body hide-table" id="sponsorships" style="display:none;">
+                      <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable5" width="100%" cellspacing="0">
+                          <thead>
+                            <tr>
+                              <th>Date</th>
+                              <th>Nom Parrain</th>                           
+                              <th>Prénom Parrain</th>
+                              <th>Email Parrain</th>
+                              <th>Filleul</th>
+                              <th>Compte filleul créé</th> 
+                              <th>Nombre de participations filleul</th>                                                                          
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                              <th>Date</th>
+                              <th>Nom Parrain</th>                           
+                              <th>Prénom Parrain</th>
+                              <th>Email Parrain</th>
+                              <th>Filleul</th>
+                              <th>Compte filleul créé</th>
+                              <th>Nombre de participations filleul</th>                                                   
+                            </tr>
+                          </tfoot>
+                          <tbody>                                            
+                           
+                              {% for sponsorship in sponsorships %}
+                            <tr>
+                              <td data-sort="{{sponsorship.createdAt|date("Y/m/d H:i:s")}}">{{sponsorship.createdAt|date("d/m/Y")}}</td>
+                              <td>{{sponsorship.user.lastname}}</td>
+                              <td>{{sponsorship.user.firstname}}</td>
+                              <td>{{sponsorship.user.email}}</td> 
+                              <td>{{sponsorship.godson}}</td> 
+                              <td>{{godsonsUsers[sponsorship.id]}}</td> 
+                              <td>{{godsonsParticipations[sponsorship.id]}}</td>                                                       
+                            </tr>
+                            {% endfor %}   
+                                                                 
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+
+{% endblock %}
+
+{% block javascripts %} 
+         <!-- Page level plugins -->
+        <script src="{{ asset('bootstrap/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+        <script src="{{ asset('bootstrap/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+     
+        <!-- Page level custom scripts -->
+  
+        <script src="{{ asset('bootstrap/js/demo/datatables-demo.js')}}"></script>
+ 
+    
+
+        <script>
+              function modif_table(id){
+                var cardBody = document.getElementsByClassName('hide-table');
+                var length = cardBody.length;
+                for(var i = 0;i<length;i++){
+                  cardBody[i].style.display = "none";
+                }
+                var links = document.getElementsByClassName('link-table');
+                length = links.length;
+                for(var i = 0;i<length;i++){
+                  links[i].style.borderBottom = "0px solid transparent";
+                }
+                document.getElementById(id).style.display = "block";
+                document.getElementById('link_'+id).style.borderBottom = "1px solid white";
+            }
+        </script>
+{% endblock %}

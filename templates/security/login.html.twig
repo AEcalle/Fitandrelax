@@ -1,0 +1,78 @@
+{% extends 'baseSecurity.html.twig' %}
+{% block title %}Connexion{% endblock %}
+{% block meta %}
+<meta name="description" content="Cours en ligne de yoga postural, yoga spécial télétravail">
+<meta property="og:url" content="https://www.relaxeo.net/connexion" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Yoga en ligne" />
+<meta property="og:description" content="Cours en ligne de yoga postural, yoga spécial télétravail" />
+<meta property="og:image" content="http://relaxeo.net/img/bienvenue.jpg" />
+<meta name="twitter:image" content="http://relaxeo.net/img/bienvenue.jpg">
+{% endblock %}
+{% block body %}
+<div class="row justify-content-center no-gutters">
+  <div class="col-12 col-lg-8">
+    <div class="card o-hidden border-0 shadow-lg my-0 my-lg-4">
+      <div class="card-body p-0">      
+        <div class="row">
+          <div class="col-lg-6 d-none d-lg-block" 
+          style="background:url({{asset('img/diapo4-min.jpeg')}});background-position:center;background-size:cover">
+          </div>
+          <div class="col-lg-6 px-5 py-3 pb-4">
+            <img class="mb-3" src="{{asset('img/logo_fitandrelax.png')}}" alt="Fit & Relax" style="width:5.5em;vertical-align:-4%;" />        
+            <div class="text-center">
+              
+              <h1 class="h4 text-gray-900 mb-4">Bonjour !
+              <p>Bienvenue sur <img src="{{asset('img/logo5.png')}}" alt="relaxeo" style="width:4em;vertical-align:-4%;" /></p>
+              </h1>
+              <p>Séances de sports et de relaxation en ligne et en entreprise.</p>
+              {% for message in app.flashes('notice') %}
+              <div class="alert-success">
+                {{ message }}
+              </div>
+                {% endfor %} 
+            </div>
+            {% if error %}
+            <div class="alert-warning text-center">Identifiants invalides</div><br />
+            {% endif %}
+            <form class="user" action="{{ path('security_login') }}" method="post">
+              <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"> 
+              <div class="form-group">
+                <input type="email" class="form-control form-control-user" id="InputEmail" name="_username" aria-describedby="emailHelp" placeholder="Adresse Email" {% if last_username %}value="{{last_username}}"{% endif %} required>
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control form-control-user" id="InputPassword" name="_password" placeholder="Mot de passe" required>
+              </div>
+              <div class="form-group">
+                <div class="custom-control custom-checkbox small">
+                    <input type="checkbox" class="custom-control-input" id="remember_me" name="_remember_me" checked>
+                    <label class="custom-control-label" for="remember_me">Se souvenir de moi</label>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-success btn-user btn-block">
+                  Connexion
+              </button>                   
+            </form>
+            <hr>
+            <div class="text-center">
+              <a class="small" href="{{ path('security_forgot') }}">Mot de passe oublié ?</a>
+            </div>
+            <div class="text-center">
+              <a class="small" href="{{ path('security_registration') }}">Créer un compte !</a>
+            </div>
+            <div class="text-center">
+              <a class="small" href="{{ path('security_contact') }}">Nous contacter</a>
+            </div>
+            <div class="text-center">
+              <a class="small" href="{{path('security_mentions')}}">Mentions légales</a>
+            </div>           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

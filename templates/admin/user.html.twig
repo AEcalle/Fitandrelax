@@ -1,0 +1,163 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block title %}Relaxeo - Utilisateur{% endblock %}
+
+{% block body %}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">{{user.firstname}} {{user.lastname}}</h1>
+    </div>
+    
+    <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-success">
+                <h6 class="m-0 font-weight-bold text-gray-100">Crédits / Participations / Invitations</h6>
+                </div>
+                <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                        <th>Crédit acheté</th>
+                        <th>Crédit offert</th>
+                        <th>Crédit non utilisé</th>
+                        <th>Crédit Remboursé</th>
+                        <th>Participations payantes (y compris en tant qu'invité)</th>                        
+                        <th>Inscriptions payantes en cours (y compris en tant qu'invité)</th>                   
+                        <th>Participations de collègues invités (séances payantes)</th>
+                        <th>Inscriptions de collègues invités (séances payantes) en cours</th>                                          
+                        </tr>
+                    </thead>                    
+                    <tbody>
+                        <tr>
+                        <td>                     
+                        {% for key, product in products %}                          
+                         <p>{{key}} <span class="text-danger">x{{product}}</span></p> 
+                        {% endfor %}
+                        </td>
+                        <td>
+                          {{ nbFreeCredits }}
+                        </td>
+                        <td>
+                        {% set test = 0 %}
+                        {% for credit in credits %}                                                    
+                            {% if amounts[credit.id]!=0 %}
+                              {% set test = 1 %}                         
+                                <p>{{productsName[credit.id]}} (<span class="text-danger">{{amounts[credit.id]}} crédit(s) restants</span>)</p>
+                            {% endif %}
+                        {% endfor %}{% if test == 0 %}0{% endif %}</td>
+                        <td>{{nbRefunds}}</td>
+                        <td>{{nbChargedParticipations}}</td>                       
+                        <td>{{nbChargedSubscriptions}}</td>                  
+                        <td>{{nbChargedInvitations}}</td>
+                        <td>{{nbChargedInvitationsFuture}}</td>                  
+                        </tr>                   
+                     
+                    </tbody>
+                    </table>
+                </div> 
+                 <div class="table-responsive">
+                    <table class="table table-bordered text-center" id="dataTable2" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>                        
+                        <th>Participations à une séance gratuite</th>                       
+                        <th>Inscriptions gratuites en cours</th>
+                        <th>Collègues invités (séances gratuites)</th>                                             
+                        </tr>
+                    </thead>                    
+                    <tbody>
+                        <tr>                        
+                        <td>{{nbFreeParticipations}}</td>                      
+                        <td>{{nbFreeSubscriptions}}</td>
+                        <td>{{nbFreeInvitations}}</td>                                       
+                        </tr>                     
+                    </tbody>
+                    </table>
+                </div>                                
+                </div>
+               
+            </div>
+
+
+            <h2>Ajouter une commande</h2>
+           {{ form_start(form_oorder) }}
+             
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    {{ form_row(form_oorder.product,{'label':'Produit', 'attr':{'class':'form-control form-control-user'}}) }}                    
+                  </div>
+                  <div class="col-sm-6">
+                    {{ form_row(form_oorder.createdAt,{'label':'Date', 'attr':{'class':'form-control form-control-user'}}) }}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    {{ form_row(form_oorder.mode,{'label':'Mode', 'attr':{'class':'form-control form-control-user'}}) }}
+                  </div>
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                   
+                  </div>                 
+                </div>
+               
+                <div class="form-group row">
+               
+                <div class="col-sm-4 mb-3 mb-sm-0">               
+                      {{form_row(form_oorder.submit_post,{'label':'Enregistrer','attr':{'class':'btn btn-success'}})}}
+                </div>
+          
+                </div>
+                 {{ form_end(form_oorder) }}
+
+              <h2>Offrir du crédit</h2>
+               {{ form_start(form_freeCredit) }}
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    {{ form_row(form_freeCredit.product,{'label':'Produit', 'attr':{'class':'form-control form-control-user'}}) }}                    
+                  </div>
+                  <div class="col-sm-6">
+                    {{ form_row(form_freeCredit.amount,{'label':'Quantité', 'attr':{'class':'form-control form-control-user'}}) }}
+                  </div>
+                </div>
+                 <div class="form-group row">
+                  <div class="col-sm-4 mb-3 mb-sm-0">               
+                        <button type="submit" class="btn btn-success">Enregistrer</button>
+                  </div>
+                </div>               
+                  {{ form_end(form_freeCredit) }}
+
+
+                 <h2>Ajouter un remboursement</h2>
+           {{ form_start(form_refund) }}
+             
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    {{ form_row(form_refund.product,{'label':'Produit', 'attr':{'class':'form-control form-control-user'}}) }}                    
+                  </div>
+                  <div class="col-sm-6">
+                    {{ form_row(form_refund.createdAt,{'label':'Date', 'attr':{'class':'form-control form-control-user'}}) }}
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    {{ form_row(form_refund.credits,{'label':'Quantité de crédits', 'attr':{'class':'form-control form-control-user'}}) }}
+                  </div>
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                   
+                  </div>                 
+                </div>
+               
+                <div class="form-group row">
+               
+                <div class="col-sm-4 mb-3 mb-sm-0">               
+                      {{form_row(form_refund.submit_post,{'label':'Enregistrer','attr':{'class':'btn btn-success'}})}}
+                </div>
+          
+                </div>
+                 {{ form_end(form_refund) }}
+   
+{% endblock %}
+{% block javascripts %} 
+    <script>   
+    var defaultCreatedAt = new Date().toISOString().substring(0,11)+""+new Date().toString().substring(16,21);    
+    document.getElementById('oorder_createdAt').value = defaultCreatedAt;   
+    document.getElementById('refund_createdAt').value = defaultCreatedAt;
+    </script>
+{% endblock %}
